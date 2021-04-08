@@ -4,7 +4,7 @@ import { ProductPage } from "./Components/ProductPage";
 import { WishlistPage } from "./Components/WishlistPage";
 import { ProductDetail } from "./Components/ProductDetail";
 import { Routes, Route } from "react-router-dom";
-import "./styles.css";
+import "../public/styles.css";
 
 export default function App() {
   return (
