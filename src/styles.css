@@ -1,0 +1,261 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap");
+/* .App {
+  font-family: sans-serif;
+  text-align: center;
+} */
+body {
+  font-family: "Rubik", sans-serif;
+  margin: 0;
+  background-color: #f2f2f2;
+  overflow-x: hidden;
+}
+.nav-group .nav-item {
+  position: relative;
+}
+.active {
+  font-weight: bold;
+  background-color: var(--primary-bg);
+}
+.navbar {
+  padding-top: 1em;
+  background-color: #2bc48a;
+  margin-bottom: 1rem;
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 99%;
+  z-index: 1;
+}
+.navbar a {
+  text-decoration: none;
+  color: #fff;
+  padding: 0.5em;
+  font-size: large;
+}
+
+.product-page {
+  /* position: relative; */
+  padding: 3rem;
+  display: flex;
+}
+.navbar .nav-item {
+  cursor: pointer;
+}
+.search {
+  display: flex;
+}
+.search-bar {
+  width: 50%;
+  padding: 0.5rem;
+  margin: 0 auto;
+  align-self: center;
+  border: 1px solid var(--mygrey);
+  outline-color: #8f9c9a;
+  font-size: 0.9rem;
+}
+.product-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  text-align: left;
+  padding: 0.5rem 1.6rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+.products {
+  display: flex;
+  flex-wrap: wrap;
+}
+.filters {
+  margin-top: 3.1rem;
+  margin-right: 5rem;
+  min-width: 15%;
+  padding: 1em;
+  height: max-content;
+  background-color: #fafafa;
+}
+
+.card {
+  margin-bottom: 2rem;
+  text-align: left;
+}
+.detail-img {
+  max-height: 25rem;
+  max-width: 25rem;
+}
+.card-btn {
+  font-size: small;
+  margin-right: 1em;
+}
+.card fa {
+  color: #2bc48a;
+}
+.old-price {
+  text-decoration: line-through;
+  margin-left: 0.5em;
+  color: grey;
+}
+.rating {
+  background-color: #2bc48a;
+}
+.rating:hover {
+  background-color: #2bc48a;
+}
+fieldset {
+  border-radius: 0.15rem;
+  padding: 1em;
+  border: 1px solid #2bc48a;
+  margin: 0.5em;
+}
+fieldset legend {
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+fieldset label {
+  display: flex;
+  align-items: flex-start;
+}
+.price-range {
+  display: flex;
+  flex-direction: column;
+}
+.slider {
+  -webkit-appearance: none;
+  background-color: var(--myColor);
+  width: 100%;
+  height: 8px;
+  border-radius: 5px;
+  background: var(--mygrey);
+  outline: none;
+  margin-top: 0.7em;
+}
+.silder:active {
+  background-color: #2bc48a;
+}
+.product-detail-page {
+  padding: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.back-btn{
+  position: absolute;
+  top: 6em;
+  left: 1em;
+}
+.details-card {
+  display: flex;
+  padding: 1rem;
+  border: 1px solid var(--mygrey);
+  justify-content: center;
+}
+.btn-lg {
+  padding: 1em;
+  font-weight: bold;
+}
+.product-detail {
+  padding-left: 2rem;
+}
+/* .filter-modal {
+  position: absolute;
+  top: 16rem;
+  left: 7rem;
+  z-index: 1;
+  padding: 0.5rem;
+  background-color: #f2f2f2;
+  border: 1px solid var(--mygrey);
+} */
+.menu-bar {
+  display: none;
+}
+.menu-bar div {
+  padding: 1rem;
+  background-color: #69c8a4;
+  color: white;
+  width: 50%;
+  text-align: center;
+}
+.cart-page {
+  padding: 3rem;
+}
+.cart-subtotal {
+  display: flex;
+  justify-content: flex-end;
+}
+.cart-item {
+  display: flex;
+  flex-direction: row;
+  max-width: 27rem;
+}
+.cart-items-container {
+  padding: 3rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.cart-item button {
+  padding: 0.7em;
+  margin: 1em;
+  font-size: x-small;
+}
+.empty-cart-img {
+  width: 3rem;
+  height: auto;
+}
+.empty-msg {
+  font-size: -webkit-xxx-large;
+  color: var(--myColor);
+}
+.wishlist-page {
+  padding: 3rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+@media screen and (max-width: 420px) {
+  .filters {
+    margin: 0 auto;
+  }
+  .cart {
+    padding: 1rem;
+  }
+  .wishlist {
+    padding: 1rem;
+  }
+  .product-page {
+    padding: 1rem;
+    flex-direction: column;
+  }
+  .toast {
+    position: fixed;
+  }
+  .menu-bar {
+    z-index: 1;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+  }
+  .navbar .fa {
+    font-size: small;
+  }
+  .cart-item {
+    flex-direction: column;
+  }
+  .details-card {
+    flex-direction: column;
+  }
+  .navbar a {
+    font-size: small;
+    padding: 0.2em;
+  }
+  .btn {
+    margin: 0.3em;
+  }
+  .cart-subtotal {
+    justify-content: center;
+  }
+}
