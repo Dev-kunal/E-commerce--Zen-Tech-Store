@@ -55,14 +55,14 @@ export const CartPage = () => {
                     });
                   }
                 }}
-                className="btn"
+                className="btn btn-secondary"
               >
                 <i className="fa fa-minus" aria-hidden="true"></i>
               </button>
               {quantity}
 
               <button
-                className="btn"
+                className="btn btn-secondary"
                 onClick={() =>
                   dispatch({
                     type: "increaseQuantity",
@@ -76,7 +76,7 @@ export const CartPage = () => {
               {/* <small>x {price}</small> */}
 
               <button
-                className="btn"
+                className="btn btn-secondary"
                 onClick={() =>
                   dispatch({
                     type: "removeFromCart",

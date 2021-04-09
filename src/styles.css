@@ -257,8 +257,12 @@ fieldset label > input {
   flex-wrap: wrap;
 }
 @media screen and (max-width: 420px) {
+  .product-page {
+    flex-direction: column;
+  }
   .filters {
     margin: 0 auto;
+    min-width: 80%;
   }
   .cart {
     padding: 1rem;
@@ -266,7 +270,6 @@ fieldset label > input {
   .wishlist {
     padding: 1rem;
   }
-
   .toast {
     position: fixed;
   }
