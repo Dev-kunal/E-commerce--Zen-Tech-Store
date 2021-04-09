@@ -3,6 +3,11 @@
   font-family: sans-serif;
   text-align: center;
 } */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
   font-family: "Rubik", sans-serif;
   margin: 0;
@@ -10,6 +15,37 @@ body {
   overflow-x: hidden;
 }
 
+.hero-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fafafa;
+  height: calc(100vh - 67px);
+  background: url("https://images.unsplash.com/photo-1524289286702-f07229da36f5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"),
+    linear-gradient(rgba(0, 0, 0, 0.815), rgba(0, 0, 0, 0.822));
+  background-position: 50%;
+  background-blend-mode: overlay;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: 0;
+}
+.hero-header {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.hero-header .btn {
+  margin-top: 1rem;
+  background-color: transparent;
+  color: white;
+  border: 1px solid #fff;
+}
+.hero-header .btn:hover {
+  border: 1px solid #2bc48a;
+  color: #2bc48a;
+}
 .active {
   font-weight: bold;
   background-color: var(--primary-bg);
@@ -17,11 +53,10 @@ body {
 .navbar {
   padding-top: 1em;
   background-color: #2bc48a;
-  margin-bottom: 1rem;
+  margin-bottom: 0px;
   position: sticky;
   top: 0;
   left: 0;
-  width: 99%;
   z-index: 1;
 }
 .navbar a {
@@ -32,7 +67,6 @@ body {
 }
 
 .product-page {
-  /* position: relative; */
   padding: 3rem;
   display: flex;
 }
@@ -47,6 +81,7 @@ body {
 
 .search {
   display: flex;
+  margin-top: 0.5rem;
 }
 .search-bar {
   width: 50%;
@@ -76,7 +111,7 @@ body {
 .filters {
   margin-top: 3.1rem;
   margin-right: 5rem;
-  min-width: 15%;
+  min-width: 18%;
   padding: 1em;
   height: max-content;
   background-color: #fafafa;
@@ -120,7 +155,10 @@ fieldset legend {
 }
 fieldset label {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+}
+fieldset label > input {
+  margin-right: 0.4em;
 }
 .price-range {
   display: flex;
@@ -228,10 +266,7 @@ fieldset label {
   .wishlist {
     padding: 1rem;
   }
-  .product-page {
-    padding: 1rem;
-    flex-direction: column;
-  }
+
   .toast {
     position: fixed;
   }

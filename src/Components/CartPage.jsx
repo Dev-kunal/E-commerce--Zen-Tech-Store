@@ -87,7 +87,7 @@ export const CartPage = () => {
               >
                 <i className="fa fa-trash" aria-hidden="true"></i>
               </button>
-              <button className="btn card-btn">Checkout</button>
+              <button className="btn">Checkout</button>
               <div>Total Price ₹ {quantity > 1 ? quantity * price : price}</div>
             </div>
           </div>

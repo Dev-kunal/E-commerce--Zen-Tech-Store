@@ -18,7 +18,7 @@ export const ProductCard = ({ product }) => {
             dispatch({
               type: "removefromwishlist",
               payload: "REMOVE_FROM_WISHLIST",
-              itemId: product.id
+              itemId: product.id,
             })
           }
         >
@@ -31,7 +31,7 @@ export const ProductCard = ({ product }) => {
             dispatch({
               type: "addtowishlist",
               payload: "ADD_TO_WISHLIST",
-              item: product
+              item: product,
             })
           }
         >
@@ -64,18 +64,21 @@ export const ProductCard = ({ product }) => {
         </p>
       </div>
       <button
-        className="btn card-btn"
+        className="btn "
         onClick={() =>
           dispatch({
             type: "addToCart",
             payload: "ADD_TO_CART",
-            newItem: { ...product, quantity: 1 }
+            newItem: { ...product, quantity: 1 },
           })
         }
       >
         add to Cart
       </button>
-      <button onClick={() => handleProductClick(product.id)} className="btn ">
+      <button
+        onClick={() => handleProductClick(product.id)}
+        className="btn btn-secondary"
+      >
         See Details
       </button>
     </div>

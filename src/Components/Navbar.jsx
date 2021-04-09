@@ -18,7 +18,7 @@ export const Navbar = () => {
       </div>
       <div className="nav-group">
         <div className="nav-item">
-          <NavLink end activeClassName="active" to="/">
+          <NavLink end activeClassName="active" to="/products">
             Products
           </NavLink>
         </div>

@@ -31,7 +31,7 @@ export const WishlistPage = () => {
             </p>
           </div>
           <button
-            className="btn card-btn"
+            className="btn btn-secondary"
             onClick={() =>
               dispatch({
                 type: "removefromwishlist",

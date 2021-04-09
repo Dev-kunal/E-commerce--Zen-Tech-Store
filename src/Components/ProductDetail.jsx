@@ -25,12 +25,15 @@ export const ProductDetail = () => {
     fastDelivery,
     ratings,
     features,
-    inStock
+    inStock,
   } = products.find((product) => product.id === productId);
 
   return (
     <div className="product-detail-page">
-      <button onClick={() => navigate("/")} className="btn back-btn">
+      <button
+        onClick={() => navigate("/products")}
+        className="btn btn-secondary back-btn"
+      >
         Back
       </button>
       <div className="details-card">
@@ -75,8 +78,8 @@ export const ProductDetail = () => {
                     ratings,
                     features,
                     inStock,
-                    quantity: 1
-                  }
+                    quantity: 1,
+                  },
                 })
               }
               className="btn btn-lg"
