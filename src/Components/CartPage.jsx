@@ -33,7 +33,7 @@ export const CartPage = () => {
         <div></div>
         {itemsInCart.map(({ id, price, name, images, quantity }) => (
           <div className="card cart-item " key={id}>
-            <img src={images[0]} width="70%" height="80%" alt="product" />
+            <img src={images[0]} width="100%" height="auto" alt="product" />
             <div>
               {name}
               <br />
