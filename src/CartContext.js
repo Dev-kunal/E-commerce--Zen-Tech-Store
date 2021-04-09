@@ -16,7 +16,7 @@ export const CartProvider = ({ children }) => {
     sortBy: null,
     fastDeliveryOnly: false,
     inventoryAll: true,
-    searchResult: []
+    searchResult: [],
   });
   // console.log(state.productData);
   return (
@@ -31,7 +31,7 @@ export const CartProvider = ({ children }) => {
         showToast: state.showToast,
         toastMessage: state.toastMessage,
         searchResult: state.searchResult,
-        dispatch
+        dispatch,
       }}
     >
       {children}
@@ -55,21 +55,21 @@ const cartReducer = (state, action) => {
             item.id === action.newItem.id
               ? { ...item, quantity: item.quantity + 1 }
               : item
-          )
+          ),
         };
       } else {
         return {
           ...state,
           showToast: true,
           toastMessage: "Product Added To Cart",
-          itemsInCart: state.itemsInCart.concat(action.newItem)
+          itemsInCart: state.itemsInCart.concat(action.newItem),
         };
       }
 
     case "HIDE_TOAST":
       return {
         ...state,
-        showToast: false
+        showToast: false,
       };
     case "INCREASE_QUANTITY":
       return {
@@ -78,7 +78,7 @@ const cartReducer = (state, action) => {
           item.id === action.itemId
             ? { ...item, quantity: item.quantity + 1 }
             : item
-        )
+        ),
       };
     case "DECREASE_QUANTITY":
       return {
@@ -87,7 +87,7 @@ const cartReducer = (state, action) => {
           item.id === action.itemId
             ? { ...item, quantity: item.quantity - 1 }
             : item
-        )
+        ),
       };
     case "REMOVE_FROM_CART":
       return {
@@ -96,31 +96,31 @@ const cartReducer = (state, action) => {
         toastMessage: "Product Removed From Cart",
         itemsInCart: state.itemsInCart.filter(
           (item) => item.id !== action.itemId
-        )
+        ),
       };
     case "ADD_TO_WISHLIST":
       return {
         ...state,
         showToast: true,
         toastMessage: "Product Added To Wishlist",
-        wishlist: [...state.wishlist, action.item]
+        wishlist: [...state.wishlist, action.item],
       };
     case "REMOVE_FROM_WISHLIST":
       return {
         ...state,
         showToast: true,
         toastMessage: "Product Removed From Wishlist",
-        wishlist: state.wishlist.filter((item) => item.id !== action.itemId)
+        wishlist: state.wishlist.filter((item) => item.id !== action.itemId),
       };
     case "PRICE_LOW_TO_HIGH":
       return {
         ...state,
-        sortBy: action.payload
+        sortBy: action.payload,
       };
     case "PRICE_HIGH_TO_LOW":
       return {
         ...state,
-        sortBy: action.payload
+        sortBy: action.payload,
       };
     case "TOGGLE_FAST_DELIVERY":
       return (state = { ...state, fastDeliveryOnly: !state.fastDeliveryOnly });
@@ -128,15 +128,18 @@ const cartReducer = (state, action) => {
       return (state = { ...state, inventoryAll: !state.inventoryAll });
 
     case "SEARCH_FILTER":
-      console.log(action.filterTerm);
       return (state = {
         ...state,
         productData: state.productData.filter((product) =>
           product.name.toLowerCase().includes(action.filterTerm)
-        )
+        ),
+      });
+    case "HIDE_TOAST":
+      return (state = {
+        ...state,
+        showToast: false,
       });
 
-      
     default:
       return { state };
   }

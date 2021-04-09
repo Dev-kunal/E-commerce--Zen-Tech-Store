@@ -9,6 +9,7 @@ export const CartPage = () => {
   if (showToast) {
     setTimeout(() => {
       toast.current.style.display = "none";
+      dispatch({ type: "hideToast", payload: "HIDE_TOAST" });
     }, 1000);
   }
 
@@ -44,13 +45,13 @@ export const CartPage = () => {
                     dispatch({
                       type: "decreaseQuantity",
                       payload: "DECREASE_QUANTITY",
-                      itemId: id
+                      itemId: id,
                     });
                   } else {
                     dispatch({
                       type: "removeFromCart",
                       payload: "REMOVE_FROM_CART",
-                      itemId: id
+                      itemId: id,
                     });
                   }
                 }}
@@ -66,7 +67,7 @@ export const CartPage = () => {
                   dispatch({
                     type: "increaseQuantity",
                     payload: "INCREASE_QUANTITY",
-                    itemId: id
+                    itemId: id,
                   })
                 }
               >
@@ -80,7 +81,7 @@ export const CartPage = () => {
                   dispatch({
                     type: "removeFromCart",
                     payload: "REMOVE_FROM_CART",
-                    itemId: id
+                    itemId: id,
                   })
                 }
               >

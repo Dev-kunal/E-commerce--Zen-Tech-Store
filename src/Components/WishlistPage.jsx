@@ -8,6 +8,7 @@ export const WishlistPage = () => {
   if (showToast) {
     setTimeout(() => {
       toast.current.style.display = "none";
+      dispatch({ type: "hideToast", payload: "HIDE_TOAST" });
     }, 1000);
   }
 
@@ -35,7 +36,7 @@ export const WishlistPage = () => {
               dispatch({
                 type: "removefromwishlist",
                 payload: "REMOVE_FROM_WISHLIST",
-                itemId: id
+                itemId: id,
               })
             }
           >
@@ -47,12 +48,12 @@ export const WishlistPage = () => {
               dispatch({
                 type: "removefromwishlist",
                 payload: "REMOVE_FROM_WISHLIST",
-                itemId: id
+                itemId: id,
               });
               dispatch({
                 type: "addToCart",
                 payload: "ADD_TO_CART",
-                newItem: { id, name, price, images, quantity: 1 }
+                newItem: { id, name, price, images, quantity: 1 },
               });
             }}
           >

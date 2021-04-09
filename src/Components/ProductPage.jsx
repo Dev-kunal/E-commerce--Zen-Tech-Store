@@ -11,7 +11,8 @@ export const ProductPage = () => {
     fastDeliveryOnly,
     inventoryAll,
     showToast,
-    toastMessage
+    toastMessage,
+    dispatch,
   } = useCart();
   // const [displayfiltermodal, setfilters] = useState(false);
   const [sliderValue, setSliderValue] = useState(150000);
@@ -22,6 +23,7 @@ export const ProductPage = () => {
   if (showToast) {
     setTimeout(() => {
       toast.current.style.display = "none";
+      dispatch({ type: "hideToast", payload: "HIDE_TOAST" });
     }, 1000);
   }
   useEffect(() => {
@@ -50,7 +52,7 @@ export const ProductPage = () => {
   const sortedData = getsortedData(searchResults, sortBy);
   const filteredData = getFilteredData(sortedData, {
     fastDeliveryOnly,
-    inventoryAll
+    inventoryAll,
   });
   const filterByPrice = (products, priceRange) => {
     return products.filter(({ price }) => price <= priceRange);
