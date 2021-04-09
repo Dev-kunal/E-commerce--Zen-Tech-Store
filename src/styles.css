@@ -9,9 +9,7 @@ body {
   background-color: #f2f2f2;
   overflow-x: hidden;
 }
-.nav-group .nav-item {
-  position: relative;
-}
+
 .active {
   font-weight: bold;
   background-color: var(--primary-bg);
@@ -40,7 +38,13 @@ body {
 }
 .navbar .nav-item {
   cursor: pointer;
+  position: relative;
+  font-size: small;
+  display: inline-block;
+  padding: 0.5em;
+  margin: 0.2em;
 }
+
 .search {
   display: flex;
 }
@@ -141,7 +145,7 @@ fieldset label {
   justify-content: center;
   align-items: center;
 }
-.back-btn{
+.back-btn {
   position: absolute;
   top: 6em;
   left: 1em;
@@ -248,6 +252,10 @@ fieldset label {
   .details-card {
     flex-direction: column;
   }
+  .navbar .nav-item {
+    margin: 0;
+    padding: 0.1em;
+  }
   .navbar a {
     font-size: small;
     padding: 0.2em;
@@ -257,5 +265,9 @@ fieldset label {
   }
   .cart-subtotal {
     justify-content: center;
+    margin-bottom: 1rem;
+  }
+  .cart-items-container {
+    padding: 0;
   }
 }

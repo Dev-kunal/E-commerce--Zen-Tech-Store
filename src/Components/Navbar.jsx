@@ -26,16 +26,16 @@ export const Navbar = () => {
           <NavLink activeClassName="active" to="/cart">
             <i className="fa fa-shopping-cart" />
           </NavLink>
+          <span className="badge badge-icon badge-primary">{cartlength}</span>
         </div>
-        <span className="badge badge-icon badge-primary">{cartlength}</span>
         <div className="nav-item">
           <NavLink activeClassName="active" to="/wishlist">
             <i className="fa fa-heart" aria-hidden="true"></i>
           </NavLink>
+          <span className="badge badge-icon badge-primary">
+            {wishlist.length}
+          </span>
         </div>
-        <span className="badge badge-icon badge-primary">
-          {wishlist.length}
-        </span>
       </div>
     </div>
   );
