@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { useCart } from "../CartContext";
-import { FilterModal } from "./FilterModal";
-import { Filters } from "./Filters";
-import { ProductCard } from "./ProductCard";
+import { useCart } from "../../CartContext";
+import { Filters } from "../Filters/Filters";
+import { ProductCard } from "../ProductCard/ProductCard";
+import "./product-page.css";
 
 export const ProductPage = () => {
   const {
@@ -14,7 +14,7 @@ export const ProductPage = () => {
     toastMessage,
     dispatch,
   } = useCart();
-  // const [displayfiltermodal, setfilters] = useState(false);
+
   const [sliderValue, setSliderValue] = useState(150000);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResult] = useState(products);
@@ -22,7 +22,6 @@ export const ProductPage = () => {
 
   if (showToast) {
     setTimeout(() => {
-      toast.current.style.display = "none";
       dispatch({ type: "hideToast", payload: "HIDE_TOAST" });
     }, 1000);
   }
@@ -74,11 +73,6 @@ export const ProductPage = () => {
 
       <div className="product-page">
         <Filters sliderValue={sliderValue} setSliderValue={setSliderValue} />
-        {/* {displayfiltermodal && <FilterModal />} */}
-        {/* <div className="menu-bar">
-          <div onClick={()=>setfilters(!displayfiltermodal)}>Filter</div>
-          <div onClick={()=>setfilters(!displayfiltermodal)}>Sort BY</div>
-        </div> */}
         <div className="product-container">
           <div className="header">Products</div>
           <div className="products">
@@ -88,9 +82,9 @@ export const ProductPage = () => {
           </div>
         </div>
         {showToast && (
-          <div class="toast toast-n" ref={toast}>
+          <div className="toast toast-n" ref={toast}>
             <p>{toastMessage}</p>
-            <button class="btn toast-btn">X</button>
+            <button className="btn toast-btn">X</button>
           </div>
         )}
       </div>

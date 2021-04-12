@@ -1,14 +1,19 @@
-import { useCart } from "../CartContext";
+import { useCart } from "../../CartContext";
 import { useRef } from "react";
+import "./cart-page.css";
+import { useNavigate } from "react-router-dom";
 
 export const CartPage = () => {
   const { itemsInCart, dispatch, showToast, toastMessage } = useCart();
-
   const toast = useRef(null);
+  const navigate = useNavigate();
+
+  const cartlength = itemsInCart.reduce((accu, item) => {
+    return item.quantity + accu;
+  }, 0);
 
   if (showToast) {
     setTimeout(() => {
-      toast.current.style.display = "none";
       dispatch({ type: "hideToast", payload: "HIDE_TOAST" });
     }, 1000);
   }
@@ -30,9 +35,20 @@ export const CartPage = () => {
       </div>
 
       <div className="cart-items-container">
-        <div></div>
+        {cartlength < 1 && (
+          <div className="empty-msg">
+            <div className="msg">Your tech Cart is empty</div>
+            <br />
+            <button
+              onClick={() => navigate("/products")}
+              className="btn btn-secondary no-shadow"
+            >
+              Let's Shop
+            </button>
+          </div>
+        )}
         {itemsInCart.map(({ id, price, name, images, quantity }) => (
-          <div className="card product-card" key={id}>
+          <div className="card" key={id}>
             <img src={images[0]} width="100%" height="auto" alt="product" />
             <div>
               {name}
@@ -55,14 +71,15 @@ export const CartPage = () => {
                     });
                   }
                 }}
-                className="btn btn-secondary"
+                className="btn btn-secondary no-shadow"
               >
                 <i className="fa fa-minus" aria-hidden="true"></i>
               </button>
-              {quantity}
+
+              <span className="quantity">{quantity}</span>
 
               <button
-                className="btn btn-secondary"
+                className="btn btn-secondary no-shadow"
                 onClick={() =>
                   dispatch({
                     type: "increaseQuantity",
@@ -73,10 +90,8 @@ export const CartPage = () => {
               >
                 <i className="fa fa-plus" aria-hidden="true"></i>
               </button>
-              {/* <small>x {price}</small> */}
-
               <button
-                className="btn btn-secondary"
+                className="btn btn-secondary no-shadow"
                 onClick={() =>
                   dispatch({
                     type: "removeFromCart",
@@ -94,9 +109,9 @@ export const CartPage = () => {
         ))}
       </div>
       {showToast && (
-        <div class="toast toast-n" ref={toast}>
+        <div className="toast toast-n" ref={toast}>
           <p>{toastMessage}</p>
-          <button class="btn toast-btn">X</button>
+          <button className="btn toast-btn">X</button>
         </div>
       )}
     </div>

@@ -1,11 +1,11 @@
-import { CartPage } from "./Components/CartPage";
-import { Navbar } from "./Components/Navbar";
-import { ProductPage } from "./Components/ProductPage";
-import { WishlistPage } from "./Components/WishlistPage";
-import { ProductDetail } from "./Components/ProductDetail";
+import { CartPage } from "./Components/CartPage/CartPage";
+import { Navbar } from "./Components/Navbar/Navbar";
+import { ProductPage } from "./Components/ProductPage/ProductPage";
+import { WishlistPage } from "./Components/WishlistPage/WishlistPage";
+import { ProductDetail } from "./Components/ProductDetail/ProductDetail";
+import { HomePage } from "./Components/HomePage/HomePage";
 import { Routes, Route } from "react-router-dom";
 import "./styles.css";
-import { HomePage } from "./Components/HomePage";
 
 export default function App() {
   return (

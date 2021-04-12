@@ -1,5 +1,6 @@
-import { useCart } from "../CartContext";
+import { useCart } from "../../CartContext";
 import { useNavigate } from "react-router-dom";
+import "./product-card.css";
 
 export const ProductCard = ({ product }) => {
   const { wishlist, dispatch } = useCart();

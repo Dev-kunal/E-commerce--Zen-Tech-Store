@@ -1,6 +1,5 @@
-import { FilterModal } from "./FilterModal";
-import { useCart } from "../CartContext";
-import { useState } from "react";
+import { useCart } from "../../CartContext";
+import "./filters.css";
 
 export const Filters = ({ sliderValue, setSliderValue }) => {
   const { sortBy, dispatch } = useCart();
@@ -43,7 +42,7 @@ export const Filters = ({ sliderValue, setSliderValue }) => {
               onChange={() =>
                 dispatch({
                   type: "toggleDeliveryType",
-                  payload: "TOGGLE_FAST_DELIVERY"
+                  payload: "TOGGLE_FAST_DELIVERY",
                 })
               }
             />
@@ -56,7 +55,7 @@ export const Filters = ({ sliderValue, setSliderValue }) => {
               onChange={() =>
                 dispatch({
                   type: "toggleInventory",
-                  payload: "TOGGLE_INVENTORY"
+                  payload: "TOGGLE_INVENTORY",
                 })
               }
             />
@@ -76,7 +75,8 @@ export const Filters = ({ sliderValue, setSliderValue }) => {
               min="5000"
               max="200000"
             />
-            <br />₹ {sliderValue}
+            <br />
+            5000 - {sliderValue} ₹
           </label>
         </fieldset>
       </form>

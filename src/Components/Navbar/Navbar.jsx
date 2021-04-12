@@ -1,5 +1,6 @@
-import { useCart } from "../CartContext";
+import { useCart } from "../../CartContext";
 import { NavLink, Link } from "react-router-dom";
+import "./navbar.css";
 
 export const Navbar = () => {
   const { itemsInCart, wishlist } = useCart();

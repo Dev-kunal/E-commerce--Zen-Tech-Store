@@ -1,17 +1,17 @@
 import { useRef } from "react";
 import { useParams } from "react-router-dom";
-import { useCart } from "../CartContext";
+import { useCart } from "../../CartContext";
 import { useNavigate } from "react-router-dom";
+import "./product-detail.css";
 
 export const ProductDetail = () => {
-  const { products, dispatch, showToast, toastMessage } = useCart();
+  const { products, dispatch, showToast, toastMessage, wishlist } = useCart();
   const { productId } = useParams();
   const navigate = useNavigate();
 
   const toast = useRef(null);
   if (showToast) {
     setTimeout(() => {
-      toast.current.style.display = "none";
       dispatch({ type: "toast", payload: "HIDE_TOAST" });
     }, 1000);
   }
@@ -41,6 +41,43 @@ export const ProductDetail = () => {
           <img src={images[0]} alt="Not-found" width="100%" height="auto" />
         </div>
         <div className="product-detail">
+          {wishlist.find((item) => item.id === id) ? (
+            <button
+              className="wishlist-badge wishlist-btn"
+              onClick={() =>
+                dispatch({
+                  type: "removefromwishlist",
+                  payload: "REMOVE_FROM_WISHLIST",
+                  itemId: id,
+                })
+              }
+            >
+              <i className="fa fa-heart"></i>
+            </button>
+          ) : (
+            <button
+              className="wishlist-badge wishlist-btn"
+              onClick={() =>
+                dispatch({
+                  type: "addtowishlist",
+                  payload: "ADD_TO_WISHLIST",
+                  item: {
+                    id,
+                    name,
+                    images,
+                    price,
+                    oldPrice,
+                    fastDelivery,
+                    ratings,
+                    features,
+                    inStock,
+                  },
+                })
+              }
+            >
+              <i className="fa fa-heart-o"></i>
+            </button>
+          )}
           <h2 style={{ marginTop: "0" }}>{name}</h2>
           <span className="rating">
             {ratings}
@@ -91,9 +128,9 @@ export const ProductDetail = () => {
         </div>
       </div>
       {showToast && (
-        <div class="toast toast-n" ref={toast}>
+        <div className="toast toast-n" ref={toast}>
           <p>{toastMessage}</p>
-          <button class="btn toast-btn">X</button>
+          <button className="btn toast-btn">X</button>
         </div>
       )}
     </div>

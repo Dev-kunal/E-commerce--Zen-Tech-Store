@@ -1,20 +1,32 @@
 import { useRef } from "react";
-import { useCart } from "../CartContext";
+import { useCart } from "../../CartContext";
+import { useNavigate } from "react-router-dom";
 
 export const WishlistPage = () => {
   const { wishlist, dispatch, showToast, toastMessage } = useCart();
   const toast = useRef(null);
+  const navigate = useNavigate();
 
   if (showToast) {
     setTimeout(() => {
-      toast.current.style.display = "none";
       dispatch({ type: "hideToast", payload: "HIDE_TOAST" });
     }, 1000);
   }
 
-  // console.log(wishlist);
   return (
     <div className="wishlist-page">
+      {wishlist.length < 1 && (
+        <div className="empty-msg">
+          <div className="msg">Your tech wishlist is empty</div>
+          <br />
+          <button
+            onClick={() => navigate("/products")}
+            className="btn btn-secondary no-shadow"
+          >
+            Shop best deals
+          </button>
+        </div>
+      )}
       {wishlist.map(({ id, name, price, images }) => (
         <div className="card product-card" key={id}>
           <div className="card-img">
@@ -31,7 +43,7 @@ export const WishlistPage = () => {
             </p>
           </div>
           <button
-            className="btn btn-secondary"
+            className="btn card-btn btn-secondary"
             onClick={() =>
               dispatch({
                 type: "removefromwishlist",
@@ -62,9 +74,9 @@ export const WishlistPage = () => {
         </div>
       ))}
       {showToast && (
-        <div class="toast toast-n" ref={toast}>
+        <div className="toast toast-n" ref={toast}>
           <p>{toastMessage}</p>
-          <button class="btn toast-btn">X</button>
+          <button className="btn toast-btn">X</button>
         </div>
       )}
     </div>

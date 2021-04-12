@@ -1,0 +1,15 @@
+.card {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+.card fa {
+  color: #2bc48a;
+}
+.old-price {
+  text-decoration: line-through;
+  margin-left: 0.5rem;
+  color: grey;
+}
+.rating {
+  background-color: #2bc48a;
+}

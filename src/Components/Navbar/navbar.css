@@ -1,0 +1,26 @@
+.navbar {
+  padding-top: 1rem;
+  background-color: #2bc48a;
+  margin-bottom: 0px;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+.navbar a {
+  text-decoration: none;
+  color: #fff;
+  padding: 0.5rem;
+}
+.nav-item {
+  cursor: pointer;
+  position: relative;
+  font-size: small;
+  display: inline-block;
+  margin: 0.2rem;
+}
+
+.active {
+  font-weight: bold;
+  background-color: var(--primary-bg);
+}

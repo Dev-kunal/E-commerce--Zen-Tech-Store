@@ -1,0 +1,29 @@
+.product-detail-page {
+  padding: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.back-btn {
+  position: absolute;
+  top: 6rem;
+  left: 1rem;
+}
+.details-card {
+  display: flex;
+  padding: 1rem;
+  border: 1px solid var(--mygrey);
+  justify-content: center;
+}
+.detail-img {
+  max-height: 25rem;
+  max-width: 25rem;
+}
+.btn-lg {
+  padding: 1rem;
+  font-weight: bold;
+}
+.product-detail {
+  position: relative;
+  padding-left: 2rem;
+}
