@@ -1,18 +1,24 @@
 import { useRef } from "react";
 import { useParams } from "react-router-dom";
-import { useCart } from "../../CartContext";
+import { useCart } from "../../Context/CartProvider";
 import { useNavigate } from "react-router-dom";
 import "./product-detail.css";
 
 export const ProductDetail = () => {
-  const { products, dispatch, showToast, toastMessage, wishlist } = useCart();
+  const {
+    productData,
+    dispatch,
+    showToast,
+    toastMessage,
+    wishlist,
+  } = useCart();
   const { productId } = useParams();
   const navigate = useNavigate();
 
   const toast = useRef(null);
   if (showToast) {
     setTimeout(() => {
-      dispatch({ type: "toast", payload: "HIDE_TOAST" });
+      dispatch({ type: "HIDE_TOAST", payload: "HIDE_TOAST" });
     }, 1000);
   }
 
@@ -26,7 +32,7 @@ export const ProductDetail = () => {
     ratings,
     features,
     inStock,
-  } = products.find((product) => product.id === productId);
+  } = productData.find((product) => product.id === productId);
 
   return (
     <div className="product-detail-page">
@@ -46,9 +52,8 @@ export const ProductDetail = () => {
               className="wishlist-badge wishlist-btn"
               onClick={() =>
                 dispatch({
-                  type: "removefromwishlist",
-                  payload: "REMOVE_FROM_WISHLIST",
-                  itemId: id,
+                  type: "REMOVE_FROM_WISHLIST",
+                  payload: { itemId: id },
                 })
               }
             >
@@ -59,18 +64,19 @@ export const ProductDetail = () => {
               className="wishlist-badge wishlist-btn"
               onClick={() =>
                 dispatch({
-                  type: "addtowishlist",
-                  payload: "ADD_TO_WISHLIST",
-                  item: {
-                    id,
-                    name,
-                    images,
-                    price,
-                    oldPrice,
-                    fastDelivery,
-                    ratings,
-                    features,
-                    inStock,
+                  type: "ADD_TO_WISHLIST",
+                  payload: {
+                    item: {
+                      id,
+                      name,
+                      images,
+                      price,
+                      oldPrice,
+                      fastDelivery,
+                      ratings,
+                      features,
+                      inStock,
+                    },
                   },
                 })
               }
@@ -104,18 +110,19 @@ export const ProductDetail = () => {
             <button
               onClick={() =>
                 dispatch({
-                  type: "addToCart",
-                  payload: "ADD_TO_CART",
-                  newItem: {
-                    id,
-                    name,
-                    images,
-                    price,
-                    fastDelivery,
-                    ratings,
-                    features,
-                    inStock,
-                    quantity: 1,
+                  type: "ADD_TO_CART",
+                  payload: {
+                    newItem: {
+                      id,
+                      name,
+                      images,
+                      price,
+                      fastDelivery,
+                      ratings,
+                      features,
+                      inStock,
+                      quantity: 1,
+                    },
                   },
                 })
               }

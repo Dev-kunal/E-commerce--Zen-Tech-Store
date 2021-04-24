@@ -1,4 +1,4 @@
-import { useCart } from "../../CartContext";
+import { useCart } from "../../Context/CartProvider";
 import { useNavigate } from "react-router-dom";
 import "./product-card.css";
 
@@ -7,7 +7,7 @@ export const ProductCard = ({ product }) => {
   const navigate = useNavigate();
 
   const handleProductClick = (id) => {
-    navigate(`/product-details/${id}`);
+    navigate(`/products/${id}`);
   };
 
   return (
@@ -17,9 +17,8 @@ export const ProductCard = ({ product }) => {
           className="wishlist-badge wishlist-btn"
           onClick={() =>
             dispatch({
-              type: "removefromwishlist",
-              payload: "REMOVE_FROM_WISHLIST",
-              itemId: product.id,
+              type: "REMOVE_FROM_WISHLIST",
+              payload: { itemId: product.id },
             })
           }
         >
@@ -30,9 +29,8 @@ export const ProductCard = ({ product }) => {
           className="wishlist-badge wishlist-btn"
           onClick={() =>
             dispatch({
-              type: "addtowishlist",
-              payload: "ADD_TO_WISHLIST",
-              item: product,
+              type: "ADD_TO_WISHLIST",
+              payload: { item: product },
             })
           }
         >
@@ -68,9 +66,8 @@ export const ProductCard = ({ product }) => {
         className="btn "
         onClick={() =>
           dispatch({
-            type: "addToCart",
-            payload: "ADD_TO_CART",
-            newItem: { ...product, quantity: 1 },
+            type: "ADD_TO_CART",
+            payload: { newItem: { ...product, quantity: 1 } },
           })
         }
       >

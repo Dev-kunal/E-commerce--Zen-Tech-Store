@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom";
-import { CartProvider } from "./CartContext";
+import { CartProvider } from "./Context/CartProvider";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import App from "./App";

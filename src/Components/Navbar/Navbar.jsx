@@ -1,4 +1,4 @@
-import { useCart } from "../../CartContext";
+import { useCart } from "../../Context/CartProvider";
 import { NavLink, Link } from "react-router-dom";
 import "./navbar.css";
 
@@ -24,13 +24,13 @@ export const Navbar = () => {
           </NavLink>
         </div>
         <div className="nav-item">
-          <NavLink activeClassName="active" to="/cart">
+          <NavLink active to="/cart">
             <i className="fa fa-shopping-cart" />
           </NavLink>
           <span className="badge badge-icon badge-primary">{cartlength}</span>
         </div>
         <div className="nav-item">
-          <NavLink activeClassName="active" to="/wishlist">
+          <NavLink active to="/wishlist">
             <i className="fa fa-heart" aria-hidden="true"></i>
           </NavLink>
           <span className="badge badge-icon badge-primary">

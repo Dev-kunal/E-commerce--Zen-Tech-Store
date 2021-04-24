@@ -1,9 +1,9 @@
-import { CartPage } from "./Components/CartPage/CartPage";
-import { Navbar } from "./Components/Navbar/Navbar";
-import { ProductPage } from "./Components/ProductPage/ProductPage";
-import { WishlistPage } from "./Components/WishlistPage/WishlistPage";
-import { ProductDetail } from "./Components/ProductDetail/ProductDetail";
-import { HomePage } from "./Components/HomePage/HomePage";
+import { CartPage } from "./Components";
+import { Navbar } from "./Components";
+import { ProductPage } from "./Components";
+import { WishlistPage } from "./Components";
+import { ProductDetail } from "./Components";
+import { HomePage } from "./Components";
 import { Routes, Route } from "react-router-dom";
 import "./styles.css";
 
@@ -16,7 +16,7 @@ export default function App() {
         <Route path="/products" element={<ProductPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/wishlist" element={<WishlistPage />} />
-        <Route path="/product-details/:productId" element={<ProductDetail />} />
+        <Route path="/products/:productId" element={<ProductDetail />} />
       </Routes>
     </div>
   );

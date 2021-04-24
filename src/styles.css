@@ -36,7 +36,13 @@ body {
   justify-content: center;
   align-items: center;
 }
-@media screen and (max-width: 420px) {
+
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+}
+@media screen and (max-width: 767px) {
   .product-page {
     flex-direction: column;
   }
@@ -49,9 +55,6 @@ body {
   }
   .wishlist {
     padding: 1rem;
-  }
-  .toast {
-    position: fixed;
   }
   .menu-bar {
     z-index: 1;

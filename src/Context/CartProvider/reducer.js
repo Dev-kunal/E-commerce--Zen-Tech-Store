@@ -1,58 +1,32 @@
-import { createContext, useContext, useReducer } from "react";
-import { productData } from "./Data";
-
-const CartContext = createContext();
+import { productData } from "../../Data";
 
 const itemsInCart = [];
 const wishlist = [];
 
-export const CartProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(cartReducer, {
-    productData,
-    itemsInCart,
-    wishlist,
-    showToast: false,
-    toastMessage: "",
-    sortBy: null,
-    fastDeliveryOnly: false,
-    inventoryAll: true,
-    searchResult: [],
-  });
-  // console.log(state.productData);
-  return (
-    <CartContext.Provider
-      value={{
-        products: state.productData,
-        itemsInCart: state.itemsInCart,
-        wishlist: state.wishlist,
-        sortBy: state.sortBy,
-        fastDeliveryOnly: state.fastDeliveryOnly,
-        inventoryAll: state.inventoryAll,
-        showToast: state.showToast,
-        toastMessage: state.toastMessage,
-        searchResult: state.searchResult,
-        dispatch,
-      }}
-    >
-      {children}
-    </CartContext.Provider>
-  );
+export const initialState = {
+  productData,
+  itemsInCart,
+  wishlist,
+  showToast: false,
+  toastMessage: "",
+  sortBy: null,
+  fastDeliveryOnly: false,
+  inventoryAll: true,
+  searchResult: [],
 };
 
-export const useCart = () => {
-  return useContext(CartContext);
-};
-
-const cartReducer = (state, action) => {
-  switch (action.payload) {
+export const cartReducer = (state, action) => {
+  switch (action.type) {
     case "ADD_TO_CART":
-      if (state.itemsInCart.find((item) => item.id === action.newItem.id)) {
+      if (
+        state.itemsInCart.find((item) => item.id === action.payload.newItem.id)
+      ) {
         return {
           ...state,
           showToast: true,
           toastMessage: "Product Added To Cart",
           itemsInCart: state.itemsInCart.map((item) =>
-            item.id === action.newItem.id
+            item.id === action.payload.newItem.id
               ? { ...item, quantity: item.quantity + 1 }
               : item
           ),
@@ -62,7 +36,7 @@ const cartReducer = (state, action) => {
           ...state,
           showToast: true,
           toastMessage: "Product Added To Cart",
-          itemsInCart: state.itemsInCart.concat(action.newItem),
+          itemsInCart: state.itemsInCart.concat(action.payload.newItem),
         };
       }
 
@@ -75,7 +49,7 @@ const cartReducer = (state, action) => {
       return {
         ...state,
         itemsInCart: state.itemsInCart.map((item) =>
-          item.id === action.itemId
+          item.id === action.payload.itemId
             ? { ...item, quantity: item.quantity + 1 }
             : item
         ),
@@ -84,7 +58,7 @@ const cartReducer = (state, action) => {
       return {
         ...state,
         itemsInCart: state.itemsInCart.map((item) =>
-          item.id === action.itemId
+          item.id === action.payload.itemId
             ? { ...item, quantity: item.quantity - 1 }
             : item
         ),
@@ -95,7 +69,7 @@ const cartReducer = (state, action) => {
         showToast: true,
         toastMessage: "Product Removed From Cart",
         itemsInCart: state.itemsInCart.filter(
-          (item) => item.id !== action.itemId
+          (item) => item.id !== action.payload.itemId
         ),
       };
     case "ADD_TO_WISHLIST":
@@ -103,24 +77,26 @@ const cartReducer = (state, action) => {
         ...state,
         showToast: true,
         toastMessage: "Product Added To Wishlist",
-        wishlist: [...state.wishlist, action.item],
+        wishlist: [...state.wishlist, action.payload.item],
       };
     case "REMOVE_FROM_WISHLIST":
       return {
         ...state,
         showToast: true,
         toastMessage: "Product Removed From Wishlist",
-        wishlist: state.wishlist.filter((item) => item.id !== action.itemId),
+        wishlist: state.wishlist.filter(
+          (item) => item.id !== action.payload.itemId
+        ),
       };
     case "PRICE_LOW_TO_HIGH":
       return {
         ...state,
-        sortBy: action.payload,
+        sortBy: action.type,
       };
     case "PRICE_HIGH_TO_LOW":
       return {
         ...state,
-        sortBy: action.payload,
+        sortBy: action.type,
       };
     case "TOGGLE_FAST_DELIVERY":
       return (state = { ...state, fastDeliveryOnly: !state.fastDeliveryOnly });
