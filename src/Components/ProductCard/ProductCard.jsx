@@ -12,13 +12,13 @@ export const ProductCard = ({ product }) => {
 
   return (
     <div className="card product-card">
-      {wishlist.find((item) => item.id === product.id) ? (
+      {wishlist.find((item) => item._id === product._id) ? (
         <button
           className="wishlist-badge wishlist-btn"
           onClick={() =>
             dispatch({
               type: "REMOVE_FROM_WISHLIST",
-              payload: { itemId: product.id },
+              payload: { itemId: product._id },
             })
           }
         >
@@ -74,7 +74,7 @@ export const ProductCard = ({ product }) => {
         add to Cart
       </button>
       <button
-        onClick={() => handleProductClick(product.id)}
+        onClick={() => handleProductClick(product._id)}
         className="btn btn-secondary"
       >
         See Details

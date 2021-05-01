@@ -66,7 +66,7 @@ export const CartPage = () => {
         )}
         {itemsInCart.map(
           ({
-            id,
+            _id,
             price,
             oldPrice,
             name,
@@ -76,7 +76,7 @@ export const CartPage = () => {
             inStock,
             ratings,
           }) => (
-            <div className="card" key={id}>
+            <div className="card" key={_id}>
               <img src={images[0]} width="100%" height="auto" alt="product" />
               <div>
                 <p>
@@ -94,7 +94,7 @@ export const CartPage = () => {
                   Stock : {inStock ? "In-Stock" : "Out Of Stock"}
                 </p>
                 <button
-                  onClick={() => updateQuantity("DEC", id, quantity)}
+                  onClick={() => updateQuantity("DEC", _id, quantity)}
                   className="btn btn-secondary no-shadow"
                 >
                   <i className="fa fa-minus" aria-hidden="true"></i>
@@ -104,7 +104,7 @@ export const CartPage = () => {
 
                 <button
                   className="btn btn-secondary no-shadow"
-                  onClick={() => updateQuantity("INC", id, quantity)}
+                  onClick={() => updateQuantity("INC", _id, quantity)}
                 >
                   <i className="fa fa-plus" aria-hidden="true"></i>
                 </button>
@@ -113,7 +113,7 @@ export const CartPage = () => {
                   onClick={() =>
                     dispatch({
                       type: "REMOVE_FROM_CART",
-                      payload: { itemId: id },
+                      payload: { itemId: _id },
                     })
                   }
                 >

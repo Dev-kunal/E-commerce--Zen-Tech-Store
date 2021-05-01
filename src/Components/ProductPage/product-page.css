@@ -32,3 +32,9 @@
   display: flex;
   flex-wrap: wrap;
 }
+.loader-container {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}

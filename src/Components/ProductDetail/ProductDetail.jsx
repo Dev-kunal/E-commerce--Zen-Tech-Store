@@ -23,7 +23,7 @@ export const ProductDetail = () => {
   }
 
   const {
-    id,
+    _id,
     name,
     images,
     price,
@@ -32,7 +32,7 @@ export const ProductDetail = () => {
     ratings,
     features,
     inStock,
-  } = productData.find((product) => product.id === productId);
+  } = productData.find((product) => product._id === productId);
 
   return (
     <div className="product-detail-page">
@@ -47,13 +47,13 @@ export const ProductDetail = () => {
           <img src={images[0]} alt="Not-found" width="100%" height="auto" />
         </div>
         <div className="product-detail">
-          {wishlist.find((item) => item.id === id) ? (
+          {wishlist.find((item) => item._id === _id) ? (
             <button
               className="wishlist-badge wishlist-btn"
               onClick={() =>
                 dispatch({
                   type: "REMOVE_FROM_WISHLIST",
-                  payload: { itemId: id },
+                  payload: { itemId: _id },
                 })
               }
             >
@@ -67,7 +67,7 @@ export const ProductDetail = () => {
                   type: "ADD_TO_WISHLIST",
                   payload: {
                     item: {
-                      id,
+                      _id,
                       name,
                       images,
                       price,
@@ -113,7 +113,7 @@ export const ProductDetail = () => {
                   type: "ADD_TO_CART",
                   payload: {
                     newItem: {
-                      id,
+                      _id,
                       name,
                       images,
                       price,

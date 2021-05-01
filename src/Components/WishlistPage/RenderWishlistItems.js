@@ -1,6 +1,6 @@
 export const RenderWishlistItems = (wishlist, dispatch) => {
-  return wishlist.map(({ id, name, price, images }) => (
-    <div className="card product-card" key={id}>
+  return wishlist.map(({ _id, name, price, images }) => (
+    <div className="card product-card" key={_id}>
       <div className="card-img">
         <img src={images[0]} width="100%" height="auto" alt="img-logo" />
       </div>
@@ -19,7 +19,7 @@ export const RenderWishlistItems = (wishlist, dispatch) => {
         onClick={() =>
           dispatch({
             type: "REMOVE_FROM_WISHLIST",
-            payload: { itemId: id },
+            payload: { itemId: _id },
           })
         }
       >
@@ -30,11 +30,11 @@ export const RenderWishlistItems = (wishlist, dispatch) => {
         onClick={() => {
           dispatch({
             type: "REMOVE_FROM_WISHLIST",
-            payload: { itemId: id },
+            payload: { itemId: _id },
           });
           dispatch({
             type: "ADD_TO_CART",
-            payload: { newItem: { id, name, price, images, quantity: 1 } },
+            payload: { newItem: { _id, name, price, images, quantity: 1 } },
           });
         }}
       >
