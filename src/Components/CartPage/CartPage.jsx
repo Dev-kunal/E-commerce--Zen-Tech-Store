@@ -10,8 +10,11 @@ import { RenderCartItems } from "./RenderCartItems";
 
 export const CartPage = () => {
   const { itemsInCart, dispatch, showToast, toastMessage } = useCart();
+  const { login } = useAuth();
   const [loading, setLoading] = useState(false);
-  const { user, userDispatch } = useAuth();
+  if (login) {
+    var user = JSON.parse(localStorage.getItem("user"));
+  }
   const toast = useRef(null);
   const navigate = useNavigate();
 

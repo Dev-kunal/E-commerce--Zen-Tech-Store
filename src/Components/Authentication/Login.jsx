@@ -46,25 +46,27 @@ export const Login = () => {
       try {
         const response = await UseAxios("POST", loginUrl, obj);
         console.log(response);
-        if (response.success) {
+        if (!response.success) {
+          dispatch({
+            type: "SHOW_TOAST",
+            payload: { message: "Enter Correct Username and Password" },
+          });
+          setLoading(false);
+        } else {
+          localStorage.setItem("user", JSON.stringify(response.user));
           userDispatch({
             type: "SET_LOGIN",
             payload: { user: response.user, login: true },
           });
-          localStorage.setItem("user", JSON.stringify(response.user));
           setUserDetails({
             username: "",
             password: "",
           });
           setLoading(false);
-          navigate(state.from);
-        } else {
-          dispatch({
-            type: "SHOW_TOAST",
-            payload: { message: "Enter Correct Username and Password" },
-          });
+          navigate(state?.from ? state.from : "/products");
         }
       } catch (err) {
+        setLoading(false);
         console.log(err);
       }
     })();
@@ -87,7 +89,7 @@ export const Login = () => {
               class="input input-lg"
               type="text"
               id="input-uname"
-              placeholder="user@gmail.com"
+              placeholder="username"
               name="username"
               required
               value={userDetails.username}

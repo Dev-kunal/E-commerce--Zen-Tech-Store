@@ -32,13 +32,11 @@ export const ProductPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        if (productData.length < 1) {
-          const { products } = await UseAxios("GET", baseUrl);
-          dispatch({
-            type: "SET_PRODUCTS",
-            payload: { products: products },
-          });
-        }
+        const { products } = await UseAxios("GET", baseUrl);
+        dispatch({
+          type: "SET_PRODUCTS",
+          payload: { products: products },
+        });
       } catch (error) {
         console.log(error);
       }

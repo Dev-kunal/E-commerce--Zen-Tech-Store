@@ -9,11 +9,13 @@ import { useAuth } from "../../Context/UserProvider";
 
 export const WishlistPage = () => {
   const { wishlist, dispatch, showToast, toastMessage } = useCart();
-  const { user } = useAuth();
+  const { login } = useAuth();
   const [loading, setloading] = useState(false);
   const toast = useRef(null);
   const navigate = useNavigate();
-
+  if (login) {
+    var user = JSON.parse(localStorage.getItem("user"));
+  }
   if (showToast) {
     setTimeout(() => {
       dispatch({ type: "HIDE_TOAST" });
@@ -28,7 +30,6 @@ export const WishlistPage = () => {
           wishlistUrl + `/${user._id}`
         );
         setloading(false);
-
         dispatch({
           type: "SET_WISHLIST",
           payload: { wishlist: wishlist.map((item) => item.productId) },

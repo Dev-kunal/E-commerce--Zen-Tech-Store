@@ -9,10 +9,13 @@ import { cartUrl, wishlistUrl } from "../../Utils/ApiEndpoints";
 
 export const ProductCard = ({ product }) => {
   const { wishlist, dispatch, productData } = useCart();
-  const { login, user } = useAuth();
+  const { login } = useAuth();
   const [loading, setloading] = useState(false);
   const navigate = useNavigate();
 
+  if (login) {
+    var user = JSON.parse(localStorage.getItem("user"));
+  }
   const handleProductClick = (id) => {
     navigate(`/products/${id}`);
   };
@@ -94,7 +97,6 @@ export const ProductCard = ({ product }) => {
         />
       ) : (
         <>
-          {/* {console.log(wishlist)} */}
           {wishlist.find((item) => item?._id === product._id) ? (
             <button
               className="wishlist-badge wishlist-btn"

@@ -27,11 +27,13 @@ export const cartReducer = (state, { type, payload }) => {
         productData: payload.products,
       };
     case "SET_CART":
+      console.log(payload.cartItems);
       return {
         ...state,
         itemsInCart: payload.cartItems,
       };
     case "SET_WISHLIST":
+      console.log(payload.wishlist);
       return {
         ...state,
         wishlist: payload.wishlist,

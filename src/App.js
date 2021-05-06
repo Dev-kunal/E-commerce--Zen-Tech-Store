@@ -18,9 +18,9 @@ import { useCart } from "./Context/CartProvider";
 export default function App() {
   const { login, userDispatch } = useAuth();
   const { dispatch } = useCart();
-
-  const user = JSON.parse(localStorage.getItem("user"));
-
+  if (login) {
+    var user = JSON.parse(localStorage.getItem("user"));
+  }
   useEffect(() => {
     if (user) {
       userDispatch({
