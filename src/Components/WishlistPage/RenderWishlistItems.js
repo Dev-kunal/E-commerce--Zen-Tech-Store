@@ -1,4 +1,70 @@
-export const RenderWishlistItems = (wishlist, dispatch) => {
+import { useAuth } from "../../Context/UserProvider";
+import { cartUrl, wishlistUrl } from "../../Utils/ApiEndpoints";
+import { UseAxios } from "../../Utils/UseAxios";
+
+export const RenderWishlistItems = ({ wishlist, dispatch, setloading }) => {
+  const { user } = useAuth();
+  const handleRemoveItem = (id) => {
+    (async () => {
+      try {
+        const obj = {
+          userId: user._id,
+          productId: id,
+        };
+        setloading(true);
+        const { deletedItem } = await UseAxios(
+          "POST",
+          wishlistUrl + `/delete`,
+          obj
+        );
+        console.log(deletedItem);
+        setloading(false);
+        dispatch({
+          type: "REMOVE_FROM_WISHLIST",
+          payload: { itemId: deletedItem.productId },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  };
+  const handleAddToCart = (id) => {
+    (async () => {
+      try {
+        const obj = {
+          userId: user._id,
+          productId: id,
+          quantity: 1,
+        };
+        setloading(true);
+        const { savedCartItem } = await UseAxios(
+          "POST",
+          wishlistUrl + `/addtocart`,
+          obj
+        );
+        console.log(savedCartItem);
+        const { deletedItem } = await UseAxios(
+          "POST",
+          wishlistUrl + `/delete`,
+          obj
+        );
+        console.log(deletedItem);
+        dispatch({
+          type: "ADD_TO_CART",
+          payload: { newItem: savedCartItem },
+        });
+        dispatch({
+          type: "REMOVE_FROM_WISHLIST",
+          payload: { itemId: deletedItem.productId },
+        });
+
+        setloading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  };
+
   return wishlist.map(({ _id, name, price, images }) => (
     <div className="card product-card" key={_id}>
       <div className="card-img">
@@ -16,28 +82,11 @@ export const RenderWishlistItems = (wishlist, dispatch) => {
       </div>
       <button
         className="btn card-btn btn-secondary"
-        onClick={() =>
-          dispatch({
-            type: "REMOVE_FROM_WISHLIST",
-            payload: { itemId: _id },
-          })
-        }
+        onClick={() => handleRemoveItem(_id)}
       >
         Remove
       </button>
-      <button
-        className="btn card-btn"
-        onClick={() => {
-          dispatch({
-            type: "REMOVE_FROM_WISHLIST",
-            payload: { itemId: _id },
-          });
-          dispatch({
-            type: "ADD_TO_CART",
-            payload: { newItem: { _id, name, price, images, quantity: 1 } },
-          });
-        }}
-      >
+      <button className="btn card-btn" onClick={() => handleAddToCart(_id)}>
         add To Cart
       </button>
     </div>

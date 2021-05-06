@@ -20,8 +20,24 @@
   margin: 0.2rem;
   padding: 0;
 }
-
 .active {
   font-weight: bold;
   background-color: var(--primary-bg);
+}
+.nav-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.user {
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+}
+
+@media screen and (max-width: 767px) {
+  .user {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 }

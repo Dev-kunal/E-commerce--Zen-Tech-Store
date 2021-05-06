@@ -6,7 +6,7 @@
   justify-content: flex-end;
 }
 .cart-items-container {
-  padding: 3rem;
+  padding: 1rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

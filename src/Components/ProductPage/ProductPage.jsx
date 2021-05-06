@@ -18,11 +18,10 @@ export const ProductPage = () => {
     toastMessage,
     dispatch,
   } = useCart();
-  // console.log(productData);
   const [sliderValue, setSliderValue] = useState(150000);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResult] = useState(productData);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const toast = useRef(null);
 
   if (showToast) {
@@ -39,38 +38,41 @@ export const ProductPage = () => {
             type: "SET_PRODUCTS",
             payload: { products: products },
           });
-          setLoading(false);
         }
       } catch (error) {
         console.log(error);
       }
     })();
   }, []);
-  useEffect(() => {
-    setSearchResult(
-      productData.filter((product) =>
-        product.name.toLowerCase().includes(searchTerm)
-      )
-    );
-  }, [searchTerm]);
 
-  const sortedData = getSortedData(searchResults, sortBy);
+  const sortedData = getSortedData(productData, sortBy);
   const filteredData = getFilteredData(sortedData, {
     fastDeliveryOnly,
     inventoryAll,
   });
+
   const filterByPrice = (productData, priceRange) => {
     return productData.filter(({ price }) => price <= priceRange);
   };
   const finalData = filterByPrice(filteredData, sliderValue);
+  // console.log(finalData);
+
+  useEffect(() => {
+    setSearchResult((prevData) => {
+      return [
+        ...prevData,
+        productData.filter((product) => product.name === searchTerm),
+      ];
+    });
+  }, [searchTerm]);
 
   return (
     <>
       {productData.length < 1 ? (
         <div className="loader-container">
           <Loader
-            type="BallTriangle"
-            color="#00BFFF"
+            type="RevolvingDot"
+            color="#2bc48a"
             height={100}
             width={100}
             timeout={2000}

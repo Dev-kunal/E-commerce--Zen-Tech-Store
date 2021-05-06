@@ -17,11 +17,24 @@ export const initialState = {
 
 export const cartReducer = (state, { type, payload }) => {
   switch (type) {
+    case "LOGOUT":
+      return {
+        ...initialState,
+      };
     case "SET_PRODUCTS":
-      console.log(payload.products);
       return {
         ...state,
         productData: payload.products,
+      };
+    case "SET_CART":
+      return {
+        ...state,
+        itemsInCart: payload.cartItems,
+      };
+    case "SET_WISHLIST":
+      return {
+        ...state,
+        wishlist: payload.wishlist,
       };
     case "ADD_TO_CART":
       if (state.itemsInCart.find((item) => item.id === payload.newItem.id)) {
@@ -43,7 +56,12 @@ export const cartReducer = (state, { type, payload }) => {
           itemsInCart: state.itemsInCart.concat(payload.newItem),
         };
       }
-
+    case "SHOW_TOAST":
+      return {
+        ...state,
+        showToast: true,
+        toastMessage: payload.message,
+      };
     case "HIDE_TOAST":
       return {
         ...state,
@@ -81,7 +99,10 @@ export const cartReducer = (state, { type, payload }) => {
         ...state,
         showToast: true,
         toastMessage: "Product Added To Wishlist",
-        wishlist: [...state.wishlist, payload.item],
+        wishlist: [
+          ...state.wishlist,
+          productData.find((product) => product._id === payload.itemId),
+        ],
       };
     case "REMOVE_FROM_WISHLIST":
       return {
@@ -104,19 +125,6 @@ export const cartReducer = (state, { type, payload }) => {
       return (state = { ...state, fastDeliveryOnly: !state.fastDeliveryOnly });
     case "TOGGLE_INVENTORY":
       return (state = { ...state, inventoryAll: !state.inventoryAll });
-
-    // case "SEARCH_FILTER":
-    //   return (state = {
-    //     ...state,
-    //     productData: state.productData.filter((product) =>
-    //       product.name.toLowerCase().includes(action.filterTerm)
-    //     ),
-    //   });
-    case "HIDE_TOAST":
-      return (state = {
-        ...state,
-        showToast: false,
-      });
 
     default:
       return { state };
