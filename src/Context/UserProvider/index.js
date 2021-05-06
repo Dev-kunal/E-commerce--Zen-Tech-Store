@@ -1,7 +1,9 @@
 import { createContext, useContext, useReducer } from "react";
 const AuthContext = createContext();
-const login = false;
-const user = null;
+const login = localStorage?.getItem("user") ? true : false;
+const user = JSON.parse(localStorage?.getItem("user"))
+  ? localStorage.getItem("user")
+  : null;
 const initialState = {
   login,
   user,

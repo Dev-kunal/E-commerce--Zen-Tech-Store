@@ -11,16 +11,50 @@ import { useAuth } from "./Context/UserProvider";
 import { Signup } from "./Components/Authentication/Sigup";
 import { User } from "./Components/User";
 import { PrivateRoute } from "./Utils/PrivateRoute";
+import { UseAxios } from "./Utils/UseAxios";
+import { wishlistUrl, cartUrl } from "./Utils/ApiEndpoints";
+import { useCart } from "./Context/CartProvider";
 
 export default function App() {
   const { login, userDispatch } = useAuth();
+  const { dispatch } = useCart();
+
   const user = JSON.parse(localStorage.getItem("user"));
+
   useEffect(() => {
     if (user) {
       userDispatch({
         type: "SET_LOGIN",
-        payload: { login: true, user: user },
+        payload: { user: user, login: true },
       });
+    }
+    console.log(login);
+    if (login) {
+      (async () => {
+        try {
+          const { wishlist } = await UseAxios(
+            "GET",
+            wishlistUrl + `/${user._id}`
+          );
+          dispatch({
+            type: "SET_WISHLIST",
+            payload: { wishlist: wishlist.map((item) => item.productId) },
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      })();
+      (async () => {
+        try {
+          const { cart } = await UseAxios("GET", cartUrl + `/${user._id}`);
+          dispatch({
+            type: "SET_CART",
+            payload: { cartItems: cart.map((item) => item.productId) },
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      })();
     }
   }, []);
 

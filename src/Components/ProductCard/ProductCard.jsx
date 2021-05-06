@@ -29,7 +29,7 @@ export const ProductCard = ({ product }) => {
           wishlistUrl + `/delete`,
           obj
         );
-        console.log(deletedItem);
+        // console.log(deletedItem);
         setloading(false);
         dispatch({
           type: "REMOVE_FROM_WISHLIST",
@@ -71,7 +71,7 @@ export const ProductCard = ({ product }) => {
         };
         setloading(true);
         const { savedCartItem } = await UseAxios("POST", cartUrl, obj);
-        console.log(savedCartItem);
+        // console.log(savedCartItem);
         dispatch({
           type: "ADD_TO_CART",
           payload: { newItem: savedCartItem },
@@ -94,7 +94,8 @@ export const ProductCard = ({ product }) => {
         />
       ) : (
         <>
-          {wishlist.find((item) => item._id === product._id) ? (
+          {/* {console.log(wishlist)} */}
+          {wishlist.find((item) => item?._id === product._id) ? (
             <button
               className="wishlist-badge wishlist-btn"
               onClick={() => handleRemoveFromWishlist(product._id)}

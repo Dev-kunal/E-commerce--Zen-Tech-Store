@@ -22,19 +22,17 @@ export const WishlistPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        if (wishlist.length < 1) {
-          setloading(true);
-          const { wishlist } = await UseAxios(
-            "GET",
-            wishlistUrl + `/${user._id}`
-          );
-          setloading(false);
+        setloading(true);
+        const { wishlist } = await UseAxios(
+          "GET",
+          wishlistUrl + `/${user._id}`
+        );
+        setloading(false);
 
-          dispatch({
-            type: "SET_WISHLIST",
-            payload: { wishlist: wishlist.map((item) => item.productId) },
-          });
-        }
+        dispatch({
+          type: "SET_WISHLIST",
+          payload: { wishlist: wishlist.map((item) => item.productId) },
+        });
       } catch (error) {
         console.log(error);
       }

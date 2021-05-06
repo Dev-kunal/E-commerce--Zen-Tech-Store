@@ -55,7 +55,6 @@ export const ProductPage = () => {
     return productData.filter(({ price }) => price <= priceRange);
   };
   const finalData = filterByPrice(filteredData, sliderValue);
-  // console.log(finalData);
 
   useEffect(() => {
     setSearchResult((prevData) => {

@@ -4,38 +4,11 @@ import "./navbar.css";
 import { useAuth } from "../../Context/UserProvider";
 import { UseAxios } from "../../Utils/UseAxios";
 import { cartUrl, userUrl, wishlistUrl } from "../../Utils/ApiEndpoints";
+import { useEffect } from "react";
 
 export const Navbar = () => {
   const { itemsInCart, wishlist, dispatch } = useCart();
   const { login, user } = useAuth();
-  console.log(user);
-  if (login) {
-    (async () => {
-      try {
-        const { wishlist } = await UseAxios(
-          "GET",
-          wishlistUrl + `/${user._id}`
-        );
-        // dispatch({
-        //   type: "SET_WISHLIST",
-        //   payload: { wishlist: wishlist.map((item) => item.productId) },
-        // });
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-    (async () => {
-      try {
-        const { cart } = await UseAxios("GET", cartUrl + `/${user._id}`);
-        // dispatch({
-        //   type: "SET_CART",
-        //   payload: { cartItems: cart.map((item) => item.productId) },
-        // });
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }
 
   const cartlength = itemsInCart.length;
   return (

@@ -6,7 +6,7 @@ import { UseAxios } from "../../Utils/UseAxios";
 import { cartUrl } from "../../Utils/ApiEndpoints";
 import { useAuth } from "../../Context/UserProvider";
 import Loader from "react-loader-spinner";
-import { RenderCartItems } from "./RenderCartItmes";
+import { RenderCartItems } from "./RenderCartItems";
 
 export const CartPage = () => {
   const { itemsInCart, dispatch, showToast, toastMessage } = useCart();
@@ -18,20 +18,18 @@ export const CartPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        if (itemsInCart.length < 1) {
-          setLoading(true);
-          console.log(user._id);
-          const { cart } = await UseAxios("GET", cartUrl + `/${user._id}`);
-          const cartItems = cart.map((product) => {
-            return { ...product.productId, quantity: product.quantity };
-          });
-          console.log(cartItems);
-          dispatch({
-            type: "SET_CART",
-            payload: { cartItems: cartItems },
-          });
-          setLoading(false);
-        }
+        setLoading(true);
+        console.log(user._id);
+        const { cart } = await UseAxios("GET", cartUrl + `/${user._id}`);
+        const cartItems = cart.map((product) => {
+          return { ...product.productId, quantity: product.quantity };
+        });
+        console.log(cartItems);
+        dispatch({
+          type: "SET_CART",
+          payload: { cartItems: cartItems },
+        });
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
