@@ -1,5 +1,3 @@
-// import { productData } from "../../Data";
-
 const itemsInCart = [];
 const wishlist = [];
 const productData = [];
@@ -27,37 +25,57 @@ export const cartReducer = (state, { type, payload }) => {
         productData: payload.products,
       };
     case "SET_CART":
-      console.log(payload.cartItems);
       return {
         ...state,
-        itemsInCart: payload.cartItems,
+        itemsInCart: payload.cart,
       };
     case "SET_WISHLIST":
-      console.log(payload.wishlist);
       return {
         ...state,
         wishlist: payload.wishlist,
       };
+    case "ADD_TO_WISHLIST":
+      return {
+        ...state,
+        showToast: true,
+        toastMessage: "Product Added To Wishlist",
+        wishlist: [...wishlist, payload.newItemInWishlist],
+      };
+    case "REMOVE_FROM_WISHLIST":
+      return {
+        ...state,
+        showToast: true,
+        toastMessage: "Product Removed From Wishlist",
+        wishlist: state.wishlist.filter(
+          (item) => item.productId._id !== payload.itemId
+        ),
+      };
     case "ADD_TO_CART":
-      if (state.itemsInCart.find((item) => item.id === payload.newItem.id)) {
-        return {
-          ...state,
-          showToast: true,
-          toastMessage: "Product Added To Cart",
-          itemsInCart: state.itemsInCart.map((item) =>
-            item._id === payload.newItem._id
-              ? { ...item, quantity: item.quantity + 1 }
-              : item
-          ),
-        };
-      } else {
-        return {
-          ...state,
-          showToast: true,
-          toastMessage: "Product Added To Cart",
-          itemsInCart: state.itemsInCart.concat(payload.newItem),
-        };
-      }
+      return {
+        ...state,
+        showToast: true,
+        toastMessage: "Product Added To Cart",
+        itemsInCart: [...state.itemsInCart, payload.newCartItem],
+      };
+    case "ADD_TO_CART_FROM_WISHLIST":
+      return {
+        ...state,
+        showToast: true,
+        toastMessage: "Product Added To Cart",
+        itemsInCart: [...state.itemsInCart, payload.newCartItem],
+        wishlist: state.wishlist.filter(
+          (item) => item.productId._id !== payload.newCartItem.productId._id
+        ),
+      };
+    case "REMOVE_FROM_CART":
+      return {
+        ...state,
+        showToast: true,
+        toastMessage: "Product Removed From Cart",
+        itemsInCart: state.itemsInCart.filter(
+          (item) => item.productId._id !== payload.itemId
+        ),
+      };
     case "SHOW_TOAST":
       return {
         ...state,
@@ -87,32 +105,16 @@ export const cartReducer = (state, { type, payload }) => {
             : item
         ),
       };
-    case "REMOVE_FROM_CART":
+    case "UPDATE_QUANTITY":
       return {
         ...state,
-        showToast: true,
-        toastMessage: "Product Removed From Cart",
-        itemsInCart: state.itemsInCart.filter(
-          (item) => item._id !== payload.itemId
+        itemsInCart: state.itemsInCart.map((item) =>
+          item.productId._id === payload.updatedProduct.productId._id
+            ? payload.updatedProduct
+            : item
         ),
       };
-    case "ADD_TO_WISHLIST":
-      return {
-        ...state,
-        showToast: true,
-        toastMessage: "Product Added To Wishlist",
-        wishlist: [
-          ...state.wishlist,
-          productData.find((product) => product._id === payload.itemId),
-        ],
-      };
-    case "REMOVE_FROM_WISHLIST":
-      return {
-        ...state,
-        showToast: true,
-        toastMessage: "Product Removed From Wishlist",
-        wishlist: state.wishlist.filter((item) => item._id !== payload.itemId),
-      };
+
     case "PRICE_LOW_TO_HIGH":
       return {
         ...state,

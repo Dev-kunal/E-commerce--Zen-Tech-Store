@@ -1,48 +1,24 @@
-import { useAuth } from "../../Context/UserProvider";
 import { cartUrl } from "../../Utils/ApiEndpoints";
 import { UseAxios } from "../../Utils/UseAxios";
+import { useCart } from "../../Context/CartProvider/index";
+import { useAuth } from "../../Context/UserProvider/index";
 
-export const RenderCartItems = (itemsInCart, dispatch, setLoading) => {
-  const { user } = useAuth();
+export const RenderCartItems = ({ setLoading }) => {
+  const { itemsInCart, dispatch } = useCart();
 
-  const updateQuantity = (type, id, quantity) => {
+  const updateQuantity = (type, id) => {
     (async () => {
       try {
         const obj = {
-          userId: user._id,
           productId: id,
           updateType: type,
         };
         setLoading(true);
-        const { productToUpdate } = await UseAxios(
-          "POST",
-          cartUrl + `/update`,
-          obj
-        );
-        if (type === "INC") {
-          dispatch({
-            type: "INCREASE_QUANTITY",
-            payload: { itemId: productToUpdate.productId },
-          });
-        } else {
-          if (quantity > 1) {
-            dispatch({
-              type: "DECREASE_QUANTITY",
-              payload: { itemId: productToUpdate.productId },
-            });
-          } else {
-            const { deletedItem } = await UseAxios(
-              "POST",
-              cartUrl + `/delete`,
-              obj
-            );
-            console.log(deletedItem);
-            dispatch({
-              type: "REMOVE_FROM_CART",
-              payload: { itemId: deletedItem.productId },
-            });
-          }
-        }
+        const { updatedProduct } = await UseAxios("POST", `cart/update`, obj);
+        dispatch({
+          type: "UPDATE_QUANTITY",
+          payload: { updatedProduct },
+        });
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -53,19 +29,14 @@ export const RenderCartItems = (itemsInCart, dispatch, setLoading) => {
     (async () => {
       try {
         const obj = {
-          userId: user._id,
           productId: id,
         };
         setLoading(true);
-        const { deletedItem } = await UseAxios(
-          "POST",
-          cartUrl + `/delete`,
-          obj
-        );
-        console.log(deletedItem);
+        const { removedCartItem } = await UseAxios("POST", `cart/remove`, obj);
+        console.log(removedCartItem);
         dispatch({
           type: "REMOVE_FROM_CART",
-          payload: { itemId: deletedItem.productId },
+          payload: { itemId: removedCartItem.productId },
         });
 
         setLoading(false);
@@ -75,17 +46,19 @@ export const RenderCartItems = (itemsInCart, dispatch, setLoading) => {
     })();
   };
 
-  return itemsInCart.map(
+  return itemsInCart?.map(
     ({
-      _id,
-      price,
-      oldPrice,
-      name,
-      images,
+      productId: {
+        _id,
+        price,
+        oldPrice,
+        name,
+        images,
+        fastDelivery,
+        inStock,
+        ratings,
+      },
       quantity,
-      fastDelivery,
-      inStock,
-      ratings,
     }) => (
       <div className="card" key={_id}>
         <img src={images[0]} width="100%" height="auto" alt="product" />
@@ -105,6 +78,7 @@ export const RenderCartItems = (itemsInCart, dispatch, setLoading) => {
             Stock : {inStock ? "In-Stock" : "Out Of Stock"}
           </p>
           <button
+            disabled={quantity === 1 ? true : false}
             onClick={() => updateQuantity("DEC", _id, quantity)}
             className="btn btn-secondary no-shadow"
           >

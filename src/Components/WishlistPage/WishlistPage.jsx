@@ -9,13 +9,10 @@ import { useAuth } from "../../Context/UserProvider";
 
 export const WishlistPage = () => {
   const { wishlist, dispatch, showToast, toastMessage } = useCart();
-  const { login } = useAuth();
   const [loading, setloading] = useState(false);
   const toast = useRef(null);
   const navigate = useNavigate();
-  if (login) {
-    var user = JSON.parse(localStorage.getItem("user"));
-  }
+
   if (showToast) {
     setTimeout(() => {
       dispatch({ type: "HIDE_TOAST" });
@@ -25,20 +22,19 @@ export const WishlistPage = () => {
     (async () => {
       try {
         setloading(true);
-        const { wishlist } = await UseAxios(
-          "GET",
-          wishlistUrl + `/${user._id}`
-        );
+        const { wishlist } = await UseAxios("GET", "/wishlist");
         setloading(false);
+
         dispatch({
           type: "SET_WISHLIST",
-          payload: { wishlist: wishlist.map((item) => item.productId) },
+          payload: { wishlist },
         });
       } catch (error) {
         console.log(error);
       }
     })();
   }, []);
+  console.log(wishlist);
   return (
     <div className="wishlist-page">
       {loading ? (
@@ -65,7 +61,7 @@ export const WishlistPage = () => {
               </button>
             </div>
           ) : (
-            RenderWishlistItems({ wishlist, dispatch, setloading })
+            <RenderWishlistItems setloading={setloading} />
           )}
         </>
       )}

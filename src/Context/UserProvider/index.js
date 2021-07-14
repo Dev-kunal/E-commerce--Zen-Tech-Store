@@ -1,12 +1,13 @@
 import { createContext, useContext, useReducer } from "react";
 const AuthContext = createContext();
 
-const login = localStorage?.getItem("user") ? true : false;
-const user = localStorage?.getItem("user")
-  ? JSON.parse(localStorage.getItem("user"))
-  : null;
+const dataFromLocalStorage =
+  JSON.parse(localStorage.getItem("session")) || null;
+const token = dataFromLocalStorage ? dataFromLocalStorage.token : null;
+const user = dataFromLocalStorage ? dataFromLocalStorage.user : null;
+
 const initialState = {
-  login,
+  token,
   user,
 };
 
@@ -23,7 +24,7 @@ export const userReducer = (state, { type, payload }) => {
     case "SET_LOGIN":
       return {
         ...state,
-        login: payload.login,
+        token: payload.token,
         user: payload.user,
       };
 
@@ -32,6 +33,4 @@ export const userReducer = (state, { type, payload }) => {
   }
 };
 
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext);

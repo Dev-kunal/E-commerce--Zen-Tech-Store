@@ -9,12 +9,12 @@ export const User = () => {
   const handleLogoutClick = () => {
     userDispatch({
       type: "SET_LOGIN",
-      payload: { login: false, user: null },
+      payload: { token: null, user: null },
     });
     dispatch({
       type: "LOGOUT",
     });
-    localStorage.removeItem("user");
+    localStorage.removeItem("session");
     navigate("/products");
   };
   return (

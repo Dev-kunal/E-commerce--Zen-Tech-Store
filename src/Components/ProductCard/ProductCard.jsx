@@ -8,31 +8,23 @@ import { UseAxios } from "../../Utils/UseAxios";
 import { cartUrl, wishlistUrl } from "../../Utils/ApiEndpoints";
 
 export const ProductCard = ({ product }) => {
-  const { wishlist, dispatch, productData } = useCart();
-  const { login } = useAuth();
+  const { wishlist, dispatch, itemsInCart } = useCart();
+  const { token } = useAuth();
   const [loading, setloading] = useState(false);
   const navigate = useNavigate();
 
-  if (login) {
-    var user = JSON.parse(localStorage.getItem("user"));
-  }
-  const handleProductClick = (id) => {
+  const productClick = (id) => {
     navigate(`/products/${id}`);
   };
-  const handleRemoveFromWishlist = (id) => {
+  const removeFromWishlist = (id) => {
     (async () => {
       try {
         const obj = {
-          userId: user._id,
           productId: id,
         };
         setloading(true);
-        const { deletedItem } = await UseAxios(
-          "POST",
-          wishlistUrl + `/delete`,
-          obj
-        );
-        // console.log(deletedItem);
+        const { deletedItem } = await UseAxios("POST", `wishlist/remove`, obj);
+
         setloading(false);
         dispatch({
           type: "REMOVE_FROM_WISHLIST",
@@ -44,40 +36,18 @@ export const ProductCard = ({ product }) => {
     })();
   };
 
-  const handleAddToWishlist = (id) => {
+  const addToWishlist = (id) => {
     (async () => {
       try {
         const obj = {
-          userId: user._id,
           productId: id,
         };
         setloading(true);
-        const { savedWishListItem } = await UseAxios("POST", wishlistUrl, obj);
-        console.log(savedWishListItem);
-        setloading(false);
+        const { newItemInWishlist } = await UseAxios("POST", "/wishlist", obj);
+
         dispatch({
           type: "ADD_TO_WISHLIST",
-          payload: { itemId: savedWishListItem.productId },
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  };
-  const handleAddToCart = (id) => {
-    (async () => {
-      try {
-        const obj = {
-          userId: user._id,
-          productId: id,
-          quantity: 1,
-        };
-        setloading(true);
-        const { savedCartItem } = await UseAxios("POST", cartUrl, obj);
-        // console.log(savedCartItem);
-        dispatch({
-          type: "ADD_TO_CART",
-          payload: { newItem: savedCartItem },
+          payload: { newItemInWishlist },
         });
         setloading(false);
       } catch (error) {
@@ -85,6 +55,37 @@ export const ProductCard = ({ product }) => {
       }
     })();
   };
+
+  const addToCart = (id) => {
+    (async () => {
+      try {
+        const obj = {
+          productId: id,
+        };
+        setloading(true);
+        if (
+          itemsInCart.filter((product) => product.productId._id === id).length
+        ) {
+          setloading(false);
+          dispatch({
+            type: "SHOW_TOAST",
+            payload: { message: "Product is already present Cart" },
+          });
+        } else {
+          const { newCartItem } = await UseAxios("POST", "/cart", obj);
+          dispatch({
+            type: "ADD_TO_CART",
+            payload: { newCartItem },
+          });
+        }
+
+        setloading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  };
+
   return (
     <div className="card product-card">
       {loading ? (
@@ -97,10 +98,10 @@ export const ProductCard = ({ product }) => {
         />
       ) : (
         <>
-          {wishlist.find((item) => item?._id === product._id) ? (
+          {wishlist?.some((item) => item?.productId._id === product._id) ? (
             <button
               className="wishlist-badge wishlist-btn"
-              onClick={() => handleRemoveFromWishlist(product._id)}
+              onClick={() => removeFromWishlist(product._id)}
             >
               <i className="fa fa-heart"></i>
             </button>
@@ -108,7 +109,7 @@ export const ProductCard = ({ product }) => {
             <button
               className="wishlist-badge wishlist-btn"
               onClick={() => {
-                login ? handleAddToWishlist(product._id) : navigate("/login");
+                token ? addToWishlist(product._id) : navigate("/login");
               }}
             >
               <i className="fa fa-heart-o"></i>
@@ -142,13 +143,13 @@ export const ProductCard = ({ product }) => {
           <button
             className="btn "
             onClick={() =>
-              login ? handleAddToCart(product._id) : navigate("/login")
+              token ? addToCart(product._id) : navigate("/login")
             }
           >
             add to Cart
           </button>
           <button
-            onClick={() => handleProductClick(product._id)}
+            onClick={() => productClick(product._id)}
             className="btn btn-secondary"
           >
             See Details

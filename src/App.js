@@ -5,40 +5,30 @@ import { ProductPage } from "./Components";
 import { WishlistPage } from "./Components";
 import { ProductDetail } from "./Components";
 import { HomePage } from "./Components";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import "./styles.css";
 import { useAuth } from "./Context/UserProvider";
 import { Signup } from "./Components/Authentication/Sigup";
 import { User } from "./Components/User";
 import { PrivateRoute } from "./Utils/PrivateRoute";
 import { UseAxios } from "./Utils/UseAxios";
-import { wishlistUrl, cartUrl } from "./Utils/ApiEndpoints";
-import { useCart } from "./Context/CartProvider";
 
+import { useCart } from "./Context/CartProvider";
+import { setupAuthHeaderForServiceCalls } from "./Utils/UseAxios";
 export default function App() {
-  const { login, userDispatch } = useAuth();
+  const { token, userDispatch } = useAuth();
   const { dispatch } = useCart();
-  if (login) {
-    var user = JSON.parse(localStorage.getItem("user"));
+  if (token) {
+    setupAuthHeaderForServiceCalls(token);
   }
   useEffect(() => {
-    if (user) {
-      userDispatch({
-        type: "SET_LOGIN",
-        payload: { user: user, login: true },
-      });
-    }
-    console.log(login);
-    if (login) {
+    if (token) {
       (async () => {
         try {
-          const { wishlist } = await UseAxios(
-            "GET",
-            wishlistUrl + `/${user._id}`
-          );
+          const { wishlist } = await UseAxios("GET", "/wishlist");
           dispatch({
             type: "SET_WISHLIST",
-            payload: { wishlist: wishlist.map((item) => item.productId) },
+            payload: { wishlist },
           });
         } catch (err) {
           console.log(err);
@@ -46,17 +36,17 @@ export default function App() {
       })();
       (async () => {
         try {
-          const { cart } = await UseAxios("GET", cartUrl + `/${user._id}`);
+          const { cart } = await UseAxios("GET", "/cart");
           dispatch({
             type: "SET_CART",
-            payload: { cartItems: cart.map((item) => item.productId) },
+            payload: { cart },
           });
         } catch (err) {
           console.log(err);
         }
       })();
     }
-  }, []);
+  }, [token]);
 
   return (
     <div className="App">

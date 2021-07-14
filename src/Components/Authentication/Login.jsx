@@ -1,7 +1,11 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { UseAxios } from "../../Utils/UseAxios";
-import { loginUrl, userUrl } from "../../Utils/ApiEndpoints";
+import {
+  setupAuthHeaderForServiceCalls,
+  UseAxios,
+  saveDataToLocalStorage,
+} from "../../Utils/UseAxios";
+
 import { useNavigate, useLocation } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import "./auth.css";
@@ -11,17 +15,20 @@ import { useCart } from "../../Context/CartProvider";
 export const Login = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { user, userDispatch } = useAuth();
+  const { token, userDispatch } = useAuth();
   const toast = useRef(null);
   const { showToast, toastMessage, dispatch } = useCart();
   if (showToast) {
     setTimeout(() => {
       dispatch({ type: "HIDE_TOAST" });
-    }, 1000);
+    }, 2000);
   }
-  if (user) {
-    navigate("/products");
-  }
+  // if (token) {
+  //   dispatch({
+  //     type: "SHOW_TOAST",
+  //     payload: { message: "Youre already Logged In..!" },
+  //   });
+  // }
 
   const [userDetails, setUserDetails] = useState({
     username: "",
@@ -44,19 +51,24 @@ export const Login = () => {
     const obj = userDetails;
     (async () => {
       try {
-        const response = await UseAxios("POST", loginUrl, obj);
-        console.log(response);
-        if (!response.success) {
+        const { success, user, token, message } = await UseAxios(
+          "POST",
+          "/user/login",
+          obj
+        );
+        console.log(user);
+        if (!success) {
           dispatch({
             type: "SHOW_TOAST",
-            payload: { message: "Enter Correct Username and Password" },
+            payload: { message: message },
           });
           setLoading(false);
         } else {
-          localStorage.setItem("user", JSON.stringify(response.user));
+          setupAuthHeaderForServiceCalls(token);
+          saveDataToLocalStorage(token, user);
           userDispatch({
             type: "SET_LOGIN",
-            payload: { user: response.user, login: true },
+            payload: { user: user, token },
           });
           setUserDetails({
             username: "",
@@ -81,12 +93,12 @@ export const Login = () => {
           onSubmit={(event) => handleFormSubmit(event)}
           className="auth-form"
         >
-          <div class="input-group">
-            <label class="input-label" for="input-uname">
+          <div className="input-group">
+            <label className="input-label" htmlFor="input-uname">
               Username
             </label>
             <input
-              class="input input-lg"
+              className="input input-lg"
               type="text"
               id="input-uname"
               placeholder="username"
@@ -96,12 +108,12 @@ export const Login = () => {
               onChange={(event) => handleInputChange(event)}
             />
           </div>
-          <div class="input-group">
-            <label class="input-label" for="input-pass">
+          <div className="input-group">
+            <label className="input-label" htmlFor="input-pass">
               Password
             </label>
             <input
-              class="input input-lg"
+              className="input input-lg"
               type="password"
               id="input-pass"
               placeholder="password"

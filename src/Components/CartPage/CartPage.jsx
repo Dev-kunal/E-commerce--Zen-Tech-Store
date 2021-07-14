@@ -10,11 +10,10 @@ import { RenderCartItems } from "./RenderCartItems";
 
 export const CartPage = () => {
   const { itemsInCart, dispatch, showToast, toastMessage } = useCart();
-  const { login } = useAuth();
+  let { token } = useAuth();
+
   const [loading, setLoading] = useState(false);
-  if (login) {
-    var user = JSON.parse(localStorage.getItem("user"));
-  }
+  const [totalCartPrice, setTotalCart] = useState(0);
   const toast = useRef(null);
   const navigate = useNavigate();
 
@@ -22,15 +21,11 @@ export const CartPage = () => {
     (async () => {
       try {
         setLoading(true);
-        console.log(user._id);
-        const { cart } = await UseAxios("GET", cartUrl + `/${user._id}`);
-        const cartItems = cart.map((product) => {
-          return { ...product.productId, quantity: product.quantity };
-        });
-        console.log(cartItems);
+        const { cart } = await UseAxios("GET", "/cart");
+
         dispatch({
           type: "SET_CART",
-          payload: { cartItems: cartItems },
+          payload: { cart },
         });
         setLoading(false);
       } catch (error) {
@@ -44,12 +39,14 @@ export const CartPage = () => {
       dispatch({ type: "HIDE_TOAST" });
     }, 1000);
   }
-  const getTotalCartPrice = () => {
-    return itemsInCart.reduce(
-      (accu, item) => accu + item.price * item.quantity,
-      0
+  useEffect(() => {
+    setTotalCart(
+      itemsInCart.reduce(
+        (accu, item) => accu + item.productId.price * item.quantity,
+        0
+      )
     );
-  };
+  }, [itemsInCart]);
 
   return (
     <>
@@ -65,7 +62,7 @@ export const CartPage = () => {
         </div>
       ) : (
         <>
-          {itemsInCart.length < 1 ? (
+          {itemsInCart?.length < 1 ? (
             <div className="empty-msg">
               <div className="msg">Your tech Cart is empty</div>
               <br />
@@ -79,11 +76,11 @@ export const CartPage = () => {
           ) : (
             <div className="cart-page">
               <div className="cart-subtotal">
-                Total Cart Price :<strong>₹{getTotalCartPrice()}</strong>
+                Total Cart Price :<strong>₹{totalCartPrice}</strong>
                 <br />
               </div>
               <div className="cart-items-container">
-                {RenderCartItems(itemsInCart, dispatch, setLoading)}
+                <RenderCartItems setLoading={setLoading} />
               </div>
               {showToast && (
                 <div className="toast toast-n" ref={toast}>
