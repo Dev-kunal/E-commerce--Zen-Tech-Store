@@ -122,7 +122,7 @@ export const Signup = () => {
             />
           </div>
 
-          <button type="submit" className="btn btn-lg">
+          <button type="submit" className="btn auth-btn">
             Sign-Up
           </button>
           <br />
