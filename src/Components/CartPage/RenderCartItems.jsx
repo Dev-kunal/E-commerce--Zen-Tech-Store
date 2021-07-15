@@ -58,49 +58,62 @@ export const RenderCartItems = ({ setLoading }) => {
       },
       quantity,
     }) => (
-      <div className="card" key={_id}>
-        <img src={images[0]} width="100%" height="auto" alt="product" />
-        <div>
-          <p>
-            <strong>{name}</strong>
+      <>
+        <div className="cart-card">
+          <div className="cart-img">
+            <img src={images[0]} alt="Not-found" width="100%" height="auto" />
+          </div>
+          <div className="product-detail">
+            <h3 style={{ marginTop: "0" }}>{name}</h3>
             <span className="rating">
               {ratings}
               <i className="fa fa-star" aria-hidden="true"></i>
             </span>
+            <span>752 Ratings & 67 Reviews</span>
             <br />
-            <strong>₹{price}</strong>
+            <h4
+              style={{
+                display: "inline-block",
+                margin: "0.5em 0.4em 0.4em 0",
+              }}
+            >
+              ₹ {price}
+            </h4>
             <span className="old-price">₹ {oldPrice}</span>
             <br />
             Delivery : {fastDelivery ? "Same Day" : "3 Days Minimum"}
             <br />
             Stock : {inStock ? "In-Stock" : "Out Of Stock"}
-          </p>
-          <button
-            disabled={quantity === 1 ? true : false}
-            onClick={() => updateQuantity("DEC", _id, quantity)}
-            className="btn btn-secondary no-shadow"
-          >
-            <i className="fa fa-minus" aria-hidden="true"></i>
-          </button>
+            <div>
+              <button
+                disabled={quantity === 1 ? true : false}
+                onClick={() => updateQuantity("DEC", _id, quantity)}
+                className="btn btn-secondary no-shadow"
+              >
+                <i className="fa fa-minus" aria-hidden="true"></i>
+              </button>
 
-          <span className="quantity">{quantity}</span>
+              <span className="quantity">{quantity}</span>
 
-          <button
-            className="btn btn-secondary no-shadow"
-            onClick={() => updateQuantity("INC", _id, quantity)}
-          >
-            <i className="fa fa-plus" aria-hidden="true"></i>
-          </button>
-          <button
-            className="btn btn-secondary no-shadow"
-            onClick={() => handleRemoveFromCart(_id)}
-          >
-            <i className="fa fa-trash" aria-hidden="true"></i>
-          </button>
-          <button className="btn">Checkout</button>
-          <div>Total Price ₹ {quantity > 1 ? quantity * price : price}</div>
+              <button
+                className="btn btn-secondary no-shadow"
+                onClick={() => updateQuantity("INC", _id, quantity)}
+              >
+                <i className="fa fa-plus" aria-hidden="true"></i>
+              </button>
+              <button
+                className="btn btn-secondary no-shadow"
+                onClick={() => handleRemoveFromCart(_id)}
+              >
+                <i className="fa fa-trash" aria-hidden="true"></i>
+              </button>
+              <br />
+              <button className="btn cart-btn">Checkout</button>
+              <div>Total Price ₹ {quantity > 1 ? quantity * price : price}</div>
+            </div>
+          </div>
         </div>
-      </div>
+      </>
     )
   );
 };
