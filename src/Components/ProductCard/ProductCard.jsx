@@ -5,7 +5,6 @@ import { useAuth } from "../../Context/UserProvider";
 import Loader from "react-loader-spinner";
 import { useState } from "react";
 import { UseAxios } from "../../Utils/UseAxios";
-import { cartUrl, wishlistUrl } from "../../Utils/ApiEndpoints";
 
 export const ProductCard = ({ product }) => {
   const { wishlist, dispatch, itemsInCart } = useCart();

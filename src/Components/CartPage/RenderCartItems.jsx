@@ -1,4 +1,3 @@
-import { cartUrl } from "../../Utils/ApiEndpoints";
 import { UseAxios } from "../../Utils/UseAxios";
 import { useCart } from "../../Context/CartProvider/index";
 import { useAuth } from "../../Context/UserProvider/index";
@@ -33,7 +32,6 @@ export const RenderCartItems = ({ setLoading }) => {
         };
         setLoading(true);
         const { removedCartItem } = await UseAxios("POST", `cart/remove`, obj);
-        console.log(removedCartItem);
         dispatch({
           type: "REMOVE_FROM_CART",
           payload: { itemId: removedCartItem.productId },

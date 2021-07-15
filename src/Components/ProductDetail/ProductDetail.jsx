@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useCart } from "../../Context/CartProvider";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/UserProvider";
-import { baseUrl } from "../../Utils/ApiEndpoints";
+
 import { UseAxios } from "../../Utils/UseAxios";
 import Loader from "react-loader-spinner";
 import "./product-detail.css";

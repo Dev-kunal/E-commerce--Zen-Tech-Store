@@ -3,14 +3,11 @@ import { useRef, useState, useEffect } from "react";
 import "./cart-page.css";
 import { useNavigate } from "react-router-dom";
 import { UseAxios } from "../../Utils/UseAxios";
-import { cartUrl } from "../../Utils/ApiEndpoints";
-import { useAuth } from "../../Context/UserProvider";
 import Loader from "react-loader-spinner";
 import { RenderCartItems } from "./RenderCartItems";
 
 export const CartPage = () => {
   const { itemsInCart, dispatch, showToast, toastMessage } = useCart();
-  let { token } = useAuth();
 
   const [loading, setLoading] = useState(false);
   const [totalCartPrice, setTotalCart] = useState(0);

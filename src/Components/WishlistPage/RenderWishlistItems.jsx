@@ -12,7 +12,7 @@ export const RenderWishlistItems = ({ setloading }) => {
         };
         setloading(true);
         const { deletedItem } = await UseAxios("POST", `wishlist/remove`, obj);
-
+        console.log("delte item from wishlst", deletedItem);
         setloading(false);
         dispatch({
           type: "REMOVE_FROM_WISHLIST",
@@ -36,16 +36,23 @@ export const RenderWishlistItems = ({ setloading }) => {
             productId: id,
           };
           setloading(true);
-          const { newCartItem } = await UseAxios(
+          const { success, newCartItem, message } = await UseAxios(
             "POST",
             `wishlist/addtocart`,
             obj
           );
+          if (success) {
+            dispatch({
+              type: "ADD_TO_CART_FROM_WISHLIST",
+              payload: { newCartItem },
+            });
+          } else {
+            dispatch({
+              type: "SHOW_TOAST",
+              payload: { message: message },
+            });
+          }
 
-          dispatch({
-            type: "ADD_TO_CART_FROM_WISHLIST",
-            payload: { newCartItem },
-          });
           setloading(false);
         } catch (error) {
           console.log(error);

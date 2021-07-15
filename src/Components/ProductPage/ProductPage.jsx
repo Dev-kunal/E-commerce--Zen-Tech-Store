@@ -4,7 +4,6 @@ import { Filters } from "../Filters/Filters";
 import { ProductCard } from "../ProductCard/ProductCard";
 import { getSortedData, getFilteredData } from "../../Utils";
 import { UseAxios } from "../../Utils/UseAxios";
-import { baseUrl } from "../../Utils/ApiEndpoints";
 import Loader from "react-loader-spinner";
 import "./product-page.css";
 
@@ -21,7 +20,7 @@ export const ProductPage = () => {
   const [sliderValue, setSliderValue] = useState(150000);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResult] = useState(productData);
-  // const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const toast = useRef(null);
 
   if (showToast) {
@@ -32,11 +31,23 @@ export const ProductPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const { products } = await UseAxios("GET", baseUrl);
-        dispatch({
-          type: "SET_PRODUCTS",
-          payload: { products: products },
-        });
+        setLoading(true);
+        const { success, message, products } = await UseAxios(
+          "GET",
+          "/products"
+        );
+        setLoading(false);
+        if (success) {
+          dispatch({
+            type: "SET_PRODUCTS",
+            payload: { products: products },
+          });
+        } else {
+          dispatch({
+            type: "SHOW_TOAST",
+            payload: { message: message },
+          });
+        }
       } catch (error) {
         console.log(error);
       }
@@ -72,12 +83,12 @@ export const ProductPage = () => {
             color="#2bc48a"
             height={100}
             width={100}
-            timeout={2000}
+            timeout={3000}
           />
         </div>
       ) : (
         <>
-          <div className="search">
+          {/* <div className="search">
             <input
               className="search-bar"
               placeholder="&#xF002; Search"
@@ -86,7 +97,7 @@ export const ProductPage = () => {
               onChange={(event) => setSearchTerm(event.target.value)}
               style={{ fontFamily: "Arial,FontAwesome" }}
             />
-          </div>
+          </div> */}
 
           <div className="product-page">
             <Filters

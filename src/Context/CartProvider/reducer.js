@@ -39,7 +39,7 @@ export const cartReducer = (state, { type, payload }) => {
         ...state,
         showToast: true,
         toastMessage: "Product Added To Wishlist",
-        wishlist: [...wishlist, payload.newItemInWishlist],
+        wishlist: [...state.wishlist, payload.newItemInWishlist],
       };
     case "REMOVE_FROM_WISHLIST":
       return {
