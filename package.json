@@ -1,5 +1,6 @@
 {
   "name": "zen-tech-store",
+  "type": "module",
   "version": "1.0.0",
   "description": "",
   "keywords": [],
@@ -21,7 +22,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test",
+    "clear_jest": "jest --clearCache",
     "eject": "react-scripts eject"
   },
   "browserslist": [
