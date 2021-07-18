@@ -6,7 +6,7 @@ export const User = () => {
   const { userDispatch, user } = useAuth();
   const { dispatch } = useCart();
   const navigate = useNavigate();
-  const handleLogoutClick = () => {
+  export const logOutUser = () => {
     userDispatch({
       type: "SET_LOGIN",
       payload: { token: null, user: null },
@@ -41,7 +41,7 @@ export const User = () => {
           >
             See your wishlist
           </button>
-          <button onClick={handleLogoutClick} className="btn user-action-btn">
+          <button onClick={logOutUser} className="btn user-action-btn">
             Log-out
           </button>
         </div>

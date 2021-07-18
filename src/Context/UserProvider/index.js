@@ -1,4 +1,7 @@
 import { createContext, useContext, useReducer } from "react";
+import { logOutUser } from "../../Components/User";
+import { setupAuthExceptionHandler } from "../../Utils/UseAxios";
+
 const AuthContext = createContext();
 
 const dataFromLocalStorage =
@@ -13,6 +16,9 @@ const initialState = {
 
 export const AuthProvider = ({ children }) => {
   const [state, userDispatch] = useReducer(userReducer, initialState);
+  useEffect(() => {
+    setupAuthExceptionHandler(logOutUser);
+  }, []);
   return (
     <AuthContext.Provider value={{ ...state, userDispatch }}>
       {children}
