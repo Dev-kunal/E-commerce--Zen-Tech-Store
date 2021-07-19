@@ -61,7 +61,6 @@ export const CartPage = () => {
       )
     );
   }, [itemsInCart]);
-
   return (
     <>
       {loading ? (
@@ -93,7 +92,7 @@ export const CartPage = () => {
                 Total Cart Price :<strong>₹{totalCartPrice}</strong>
                 <br />
                 <StripeCheckout
-                  stripeKey="REACT_APP_KEY"
+                  stripeKey={process.env.REACT_APP_KEY}
                   token={makePayment}
                   name="Zen Tech Store"
                   shippingAddress
