@@ -61,6 +61,7 @@ export const CartPage = () => {
       )
     );
   }, [itemsInCart]);
+
   return (
     <>
       {loading ? (

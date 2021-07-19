@@ -22,8 +22,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build:staging": "env-cmd -f .env.staging react-scripts build",
-    "build:production": "env-cmd -f .env.production react-scripts build",
+    "build":"npm run build",
     "test": "react-scripts test",
     "clear_jest": "jest --clearCache",
     "eject": "react-scripts eject"
