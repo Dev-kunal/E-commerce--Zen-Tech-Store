@@ -6,7 +6,7 @@ export const User = () => {
   const { userDispatch, user } = useAuth();
   const { dispatch } = useCart();
   const navigate = useNavigate();
-  export const logOutUser = () => {
+  const logOutUser = () => {
     userDispatch({
       type: "SET_LOGIN",
       payload: { token: null, user: null },

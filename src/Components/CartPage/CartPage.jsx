@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { UseAxios } from "../../Utils/UseAxios";
 import Loader from "react-loader-spinner";
 import { RenderCartItems } from "./RenderCartItems";
+import StripeCheckout from "react-stripe-checkout";
 
 export const CartPage = () => {
   const { itemsInCart, dispatch, showToast, toastMessage } = useCart();
-
   const [loading, setLoading] = useState(false);
   const [totalCartPrice, setTotalCart] = useState(0);
   const toast = useRef(null);
@@ -19,7 +19,6 @@ export const CartPage = () => {
       try {
         setLoading(true);
         const { cart } = await UseAxios("GET", "/cart");
-
         dispatch({
           type: "SET_CART",
           payload: { cart },
@@ -30,6 +29,24 @@ export const CartPage = () => {
       }
     })();
   }, []);
+
+  const makePayment = async (token) => {
+    const body = {
+      token,
+      itemsInCart,
+    };
+    const { success, message } = await UseAxios("POST", "/payment", body);
+    if (!success) {
+      dispatch({
+        type: "SHOW_TOAST",
+        payload: { message },
+      });
+    }
+    dispatch({
+      type: "SHOW_TOAST",
+      payload: { message: "Payment Recieved succesfully" },
+    });
+  };
 
   if (showToast) {
     setTimeout(() => {
@@ -75,6 +92,15 @@ export const CartPage = () => {
               <div className="cart-subtotal">
                 Total Cart Price :<strong>₹{totalCartPrice}</strong>
                 <br />
+                <StripeCheckout
+                  stripeKey="REACT_APP_KEY"
+                  token={makePayment}
+                  name="Zen Tech Store"
+                  shippingAddress
+                  billingAddress
+                >
+                  <button className="btn cart-btn">Checkout</button>
+                </StripeCheckout>
               </div>
               <div className="cart-items-container">
                 <RenderCartItems setLoading={setLoading} />

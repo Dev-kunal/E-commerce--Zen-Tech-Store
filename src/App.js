@@ -5,21 +5,32 @@ import { ProductPage } from "./Components";
 import { WishlistPage } from "./Components";
 import { ProductDetail } from "./Components";
 import { HomePage } from "./Components";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import "./styles.css";
 import { useAuth } from "./Context/UserProvider";
 import { Signup } from "./Components/Authentication/Sigup";
 import { User } from "./Components/User";
 import { PrivateRoute } from "./Utils/PrivateRoute";
-import { UseAxios } from "./Utils/UseAxios";
+import { setupAuthExceptionHandler, UseAxios } from "./Utils/UseAxios";
 
 import { useCart } from "./Context/CartProvider";
 import { setupAuthHeaderForServiceCalls } from "./Utils/UseAxios";
 export default function App() {
   const { token, userDispatch } = useAuth();
+  const navigate = useNavigate();
   const { dispatch } = useCart();
+  const logOutUser = () => {
+    userDispatch({
+      type: "SET_LOGIN",
+      payload: { token: null, user: null },
+    });
+    dispatch({
+      type: "LOGOUT",
+    });
+  };
   if (token) {
     setupAuthHeaderForServiceCalls(token);
+    setupAuthExceptionHandler(logOutUser, navigate);
   }
   useEffect(() => {
     if (token) {

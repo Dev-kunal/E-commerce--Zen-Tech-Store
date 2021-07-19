@@ -1,6 +1,5 @@
 import { UseAxios } from "../../Utils/UseAxios";
 import { useCart } from "../../Context/CartProvider/index";
-import { useAuth } from "../../Context/UserProvider/index";
 
 export const RenderCartItems = ({ setLoading }) => {
   const { itemsInCart, dispatch } = useCart();
@@ -108,7 +107,7 @@ export const RenderCartItems = ({ setLoading }) => {
                 <i className="fa fa-trash" aria-hidden="true"></i>
               </button>
               <br />
-              <button className="btn cart-btn">Checkout</button>
+              {/* <button className="btn cart-btn">Checkout</button> */}
               <div>Total Price ₹ {quantity > 1 ? quantity * price : price}</div>
             </div>
           </div>

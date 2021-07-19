@@ -103,9 +103,7 @@ body {
   .navbar .fa {
     font-size: small;
   }
-  .cart-item {
-    flex-direction: column;
-  }
+
   .details-card {
     flex-direction: column;
   }
@@ -120,11 +118,4 @@ body {
   /* .btn {
     margin: 0.3rem;
   } */
-  .cart-subtotal {
-    justify-content: center;
-    margin-bottom: 1rem;
-  }
-  .cart-items-container {
-    padding: 0;
-  }
 }

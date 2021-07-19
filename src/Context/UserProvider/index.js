@@ -1,6 +1,8 @@
-import { createContext, useContext, useReducer } from "react";
-import { logOutUser } from "../../Components/User";
-import { setupAuthExceptionHandler } from "../../Utils/UseAxios";
+import { createContext, useContext, useReducer, useEffect } from "react";
+import {
+  setupAuthExceptionHandler,
+  setupAuthHeaderForServiceCalls,
+} from "../../Utils/UseAxios";
 
 const AuthContext = createContext();
 
@@ -16,8 +18,20 @@ const initialState = {
 
 export const AuthProvider = ({ children }) => {
   const [state, userDispatch] = useReducer(userReducer, initialState);
+
+  const logOutUser = () => {
+    localStorage.removeItem("session");
+    userDispatch({
+      type: "SET_LOGIN",
+      token: null,
+      user: null,
+    });
+    setupAuthHeaderForServiceCalls(null);
+  };
   useEffect(() => {
-    setupAuthExceptionHandler(logOutUser);
+    if (token) {
+      setupAuthExceptionHandler(logOutUser);
+    }
   }, []);
   return (
     <AuthContext.Provider value={{ ...state, userDispatch }}>

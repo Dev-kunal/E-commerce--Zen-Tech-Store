@@ -3,7 +3,10 @@
 }
 .cart-subtotal {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  max-width: 10rem;
+  position: absolute;
+  right: 3rem;
 }
 .cart-items-container {
   padding: 1rem;
@@ -53,5 +56,19 @@
   }
   .cart-card {
     flex-direction: column;
+  }
+  .cart-item {
+    flex-direction: column;
+  }
+  .cart-subtotal {
+    position: inherit;
+    justify-content: center;
+    margin: 1rem auto;
+    display: flex;
+    flex-direction: column;
+    max-width: 10rem;
+  }
+  .cart-items-container {
+    padding: 0;
   }
 }
