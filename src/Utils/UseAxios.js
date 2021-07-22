@@ -27,7 +27,7 @@ export const saveDataToLocalStorage = (token, user) => {
 
 export const setupAuthExceptionHandler = (logoutUser, navigate) => {
   const UNAUTHORIZED = 401;
-  axios.interceptors.response.use(
+  instance.interceptors.response.use(
     (response) => response,
     (error) => {
       if (error?.response?.status === UNAUTHORIZED) {

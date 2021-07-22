@@ -58,7 +58,7 @@ export const RenderCartItems = ({ setLoading }) => {
       quantity,
     }) => (
       <>
-        <div className="cart-card">
+        <div className="cart-card" key={_id}>
           <div className="cart-img">
             <img src={images[0]} alt="Not-found" width="100%" height="auto" />
           </div>
@@ -107,7 +107,7 @@ export const RenderCartItems = ({ setLoading }) => {
                 <i className="fa fa-trash" aria-hidden="true"></i>
               </button>
               <br />
-              {/* <button className="btn cart-btn">Checkout</button> */}
+
               <div>Total Price ₹ {quantity > 1 ? quantity * price : price}</div>
             </div>
           </div>

@@ -12,26 +12,28 @@ import { Signup } from "./Components/Authentication/Sigup";
 import { User } from "./Components/User";
 import { PrivateRoute } from "./Utils/PrivateRoute";
 import { setupAuthExceptionHandler, UseAxios } from "./Utils/UseAxios";
-
 import { useCart } from "./Context/CartProvider";
 import { setupAuthHeaderForServiceCalls } from "./Utils/UseAxios";
+
 export default function App() {
   const { token, userDispatch } = useAuth();
-  const navigate = useNavigate();
   const { dispatch } = useCart();
+  const navigate = useNavigate();
   const logOutUser = () => {
+    localStorage.removeItem("session");
     userDispatch({
       type: "SET_LOGIN",
-      payload: { token: null, user: null },
-    });
-    dispatch({
-      type: "LOGOUT",
+      token: null,
+      user: null,
     });
   };
-  if (token) {
-    setupAuthHeaderForServiceCalls(token);
-    setupAuthExceptionHandler(logOutUser, navigate);
-  }
+  useEffect(() => {
+    if (token) {
+      setupAuthHeaderForServiceCalls(token);
+      setupAuthExceptionHandler(logOutUser, navigate);
+    }
+  }, []);
+
   useEffect(() => {
     if (token) {
       (async () => {

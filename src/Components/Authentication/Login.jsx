@@ -23,12 +23,6 @@ export const Login = () => {
       dispatch({ type: "HIDE_TOAST" });
     }, 2000);
   }
-  // if (token) {
-  //   dispatch({
-  //     type: "SHOW_TOAST",
-  //     payload: { message: "Youre already Logged In..!" },
-  //   });
-  // }
 
   const [userDetails, setUserDetails] = useState({
     username: "",
@@ -56,7 +50,6 @@ export const Login = () => {
           "/user/login",
           obj
         );
-        console.log(user);
         if (!success) {
           dispatch({
             type: "SHOW_TOAST",
