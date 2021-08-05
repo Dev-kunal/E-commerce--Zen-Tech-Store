@@ -25,8 +25,8 @@ export const Login = () => {
   }
 
   const [userDetails, setUserDetails] = useState({
-    username: "",
-    password: "",
+    username: "raj",
+    password: "raj",
   });
   const [loading, setLoading] = useState(false);
 
