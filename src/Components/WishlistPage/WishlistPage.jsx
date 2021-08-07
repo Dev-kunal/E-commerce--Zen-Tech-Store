@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { RenderWishlistItems } from "./RenderWishlistItems";
 import { UseAxios } from "../../Utils/UseAxios";
 import Loader from "react-loader-spinner";
+import "./wishlist.css";
 
 export const WishlistPage = () => {
   const { wishlist, dispatch, showToast, toastMessage } = useCart();
@@ -22,6 +23,7 @@ export const WishlistPage = () => {
         setloading(true);
         const { wishlist } = await UseAxios("GET", "/wishlist");
         setloading(false);
+
         dispatch({
           type: "SET_WISHLIST",
           payload: { wishlist },

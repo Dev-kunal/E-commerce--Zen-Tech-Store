@@ -13,3 +13,39 @@
 .rating {
   background-color: #2bc48a;
 }
+@media screen and (max-width: 767px) {
+  .btn {
+    padding: 0.2rem;
+    font-size: xx-small;
+    border-radius: 0.25rem;
+  }
+  .card-text {
+    font-size: x-small;
+  }
+  .rating {
+    padding: 0rem 0.1rem;
+    font-size: xx-small;
+  }
+  .rating i {
+    font-size: xx-small;
+  }
+  .product-card {
+    font-size: small;
+    margin: 0rem;
+    padding: 0.2rem;
+    max-width: 10rem;
+  }
+  .wishlist-badge {
+    position: absolute;
+    width: 0.2rem;
+    height: 0.2rem;
+    top: 0.1rem;
+    right: 0.1rem;
+  }
+  .wishlist-badge i {
+    font-size: x-small;
+  }
+  .wishlist-btn {
+    padding: 0.7rem;
+  }
+}

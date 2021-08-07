@@ -4,11 +4,7 @@
   justify-content: center;
   align-items: center;
 }
-.back-btn {
-  position: absolute;
-  top: 4.2rem;
-  left: 1rem;
-}
+
 .details-card {
   display: flex;
   padding: 1rem;
@@ -20,10 +16,25 @@
   max-width: 25rem;
 }
 .btn-lg {
-  padding: 1rem;
+  padding: 0.6rem 0.9rem;
   font-weight: bold;
 }
 .product-detail {
   position: relative;
   padding-left: 2rem;
+}
+
+@media screen and (max-width: 767px) {
+  .product-detail {
+    position: static;
+  }
+  .details-card {
+    position: relative;
+    min-width: 90vw;
+    flex-direction: column;
+  }
+  .btn-lg {
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+  }
 }

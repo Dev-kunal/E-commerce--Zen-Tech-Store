@@ -23,7 +23,6 @@ export const ProductDetail = () => {
         const response = await UseAxios("GET", `/products/${productId}`);
         setproduct(response.product);
         setLoading(false);
-        console.log(product);
       } catch (error) {
         console.log(error);
       }
@@ -134,16 +133,10 @@ export const ProductDetail = () => {
           />
         </div>
       )}
-      :
+
       {product && (
         <>
           <div className="product-detail-page">
-            <button
-              onClick={() => navigate("/products")}
-              className="btn btn-secondary back-btn"
-            >
-              Back
-            </button>
             <div className="details-card">
               <div className="detail-img">
                 <img
@@ -204,7 +197,7 @@ export const ProductDetail = () => {
                   >
                     ADD TO CART
                   </button>
-                  <button className="btn btn-lg card-btn">BUY NOW</button>
+                  <button className="btn btn-lg">BUY NOW</button>
                 </div>
               </div>
             </div>

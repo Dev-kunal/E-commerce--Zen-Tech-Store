@@ -23,7 +23,6 @@ export const ProductCard = ({ product }) => {
         };
         setloading(true);
         const { deletedItem } = await UseAxios("POST", `wishlist/remove`, obj);
-
         setloading(false);
         dispatch({
           type: "REMOVE_FROM_WISHLIST",
@@ -36,6 +35,7 @@ export const ProductCard = ({ product }) => {
   };
 
   const addToWishlist = (id) => {
+    console.log("Inside wihslist");
     (async () => {
       try {
         const obj = {
@@ -43,7 +43,7 @@ export const ProductCard = ({ product }) => {
         };
         setloading(true);
         const { newItemInWishlist } = await UseAxios("POST", "/wishlist", obj);
-
+        console.log(newItemInWishlist);
         dispatch({
           type: "ADD_TO_WISHLIST",
           payload: { newItemInWishlist },

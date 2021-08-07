@@ -12,7 +12,6 @@ export const RenderWishlistItems = ({ setloading }) => {
         };
         setloading(true);
         const { deletedItem } = await UseAxios("POST", `wishlist/remove`, obj);
-        console.log("delte item from wishlst", deletedItem);
         setloading(false);
         dispatch({
           type: "REMOVE_FROM_WISHLIST",

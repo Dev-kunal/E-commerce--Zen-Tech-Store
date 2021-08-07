@@ -1,5 +1,5 @@
 .navbar {
-  padding-top: 1rem;
+  padding: 0.4rem;
   background-color: #2bc48a;
   margin-bottom: 0px;
   position: sticky;
@@ -13,10 +13,7 @@
   padding: 0.5rem;
 }
 .nav-item {
-  cursor: pointer;
-  position: relative;
   font-size: small;
-  display: inline-block;
   margin: 0.2rem;
   padding: 0;
 }
@@ -36,8 +33,19 @@
 }
 
 @media screen and (max-width: 767px) {
+  .brand-img {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
   .user {
     width: 1.5rem;
     height: 1.5rem;
+  }
+  .navbar {
+    padding: 0.1rem;
+    align-items: baseline;
+  }
+  .nav-item {
+    min-width: 0.3rems;
   }
 }

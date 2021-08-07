@@ -1,6 +1,9 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { setupAuthExceptionHandler } from "../../Utils/UseAxios";
+
+import {
+  setupAuthHeaderForServiceCalls,
+  setupAuthExceptionHandler,
+} from "../../Utils/UseAxios";
 
 const AuthContext = createContext();
 
@@ -9,6 +12,9 @@ const dataFromLocalStorage =
 const token = dataFromLocalStorage ? dataFromLocalStorage.token : null;
 const user = dataFromLocalStorage ? dataFromLocalStorage.user : null;
 
+if (token) {
+  setupAuthHeaderForServiceCalls(token);
+}
 const initialState = {
   token,
   user,

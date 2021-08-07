@@ -88,17 +88,6 @@ export const ProductPage = () => {
         </div>
       ) : (
         <>
-          {/* <div className="search">
-            <input
-              className="search-bar"
-              placeholder="&#xF002; Search"
-              type="text"
-              value={searchTerm}
-              onChange={(event) => setSearchTerm(event.target.value)}
-              style={{ fontFamily: "Arial,FontAwesome" }}
-            />
-          </div> */}
-
           <div className="product-page">
             <Filters
               sliderValue={sliderValue}

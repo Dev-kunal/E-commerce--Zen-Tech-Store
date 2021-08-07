@@ -2,25 +2,10 @@
   padding: 3rem;
   display: flex;
 }
-
-.search {
-  display: flex;
-  margin-top: 0.5rem;
-}
-.search-bar {
-  width: 50%;
-  padding: 0.5rem;
-  margin: 0 auto;
-  align-self: center;
-  border: 1px solid var(--mygrey);
-  outline-color: #8f9c9a;
-  font-size: 0.9rem;
-}
 .product-container {
   display: flex;
   flex-direction: column;
 }
-
 .header {
   text-align: left;
   padding: 0.5rem 1.6rem;
@@ -38,4 +23,17 @@
   height: 100vh;
   justify-content: center;
   align-items: center;
+}
+@media screen and (max-width: 767px) {
+  .product-container {
+    flex-wrap: wrap;
+    width: 100%;
+    flex-direction: row;
+  }
+  .products {
+    margin: 0rem;
+  }
+  .product-page {
+    padding: 0rem;
+  }
 }

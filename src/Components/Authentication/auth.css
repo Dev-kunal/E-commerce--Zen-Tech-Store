@@ -52,9 +52,9 @@
 .auth-from > span > small > a {
   color: var(--myColor);
 }
-.btn-lg {
+/* .btn-lg {
   padding: 0.6rem 1rem;
-}
+} */
 .input-row {
   display: flex;
 }

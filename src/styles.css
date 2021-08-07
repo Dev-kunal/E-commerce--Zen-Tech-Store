@@ -11,9 +11,7 @@ body {
   background-color: #cfd7de29;
   overflow-x: hidden;
 }
-.card {
-  margin: 0.5rem;
-}
+
 .empty-msg {
   height: 90vh;
   text-align: center;
@@ -28,15 +26,7 @@ body {
   color: #fff;
   background-color: var(--myColor);
 }
-.wishlist-page {
-  padding: 3rem;
-  display: flex;
-  flex-wrap: wrap;
-  height: 100vh;
-  align-items: center;
-  justify-content: center;
-  align-items: center;
-}
+
 .toast {
   position: fixed;
   bottom: 2rem;
@@ -86,12 +76,6 @@ body {
     margin: 0 auto;
     min-width: 80%;
   }
-  .cart {
-    padding: 1rem;
-  }
-  .wishlist {
-    padding: 1rem;
-  }
   .menu-bar {
     z-index: 1;
     position: fixed;
@@ -103,10 +87,6 @@ body {
   .navbar .fa {
     font-size: small;
   }
-
-  .details-card {
-    flex-direction: column;
-  }
   .navbar .nav-item {
     margin: 0;
     padding: 0.1rem;
@@ -115,7 +95,4 @@ body {
     font-size: small;
     padding: 0.2rem;
   }
-  /* .btn {
-    margin: 0.3rem;
-  } */
 }

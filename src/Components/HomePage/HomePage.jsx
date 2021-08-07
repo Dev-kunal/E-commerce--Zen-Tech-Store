@@ -1,8 +1,19 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./home-page.css";
+import { UseAxios } from "../../Utils/UseAxios";
 
 export const HomePage = () => {
   const navigate = useNavigate();
+  useEffect(() => {
+    (async () => {
+      try {
+        const { message } = await UseAxios("GET");
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
   return (
     <div className="homepage">

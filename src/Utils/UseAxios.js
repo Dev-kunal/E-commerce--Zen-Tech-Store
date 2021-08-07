@@ -1,8 +1,11 @@
 import axios from "axios";
 
+export const baseURL = "https://ecom-serverv1.herokuapp.com";
+
 export const instance = axios.create({
-  baseURL: "https://ecom-serverv1.herokuapp.com",
+  baseURL: baseURL,
 });
+
 export const setupAuthHeaderForServiceCalls = (token) => {
   instance.defaults.headers.common["Authorization"] = token;
 };
