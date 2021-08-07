@@ -35,7 +35,6 @@ export const RenderCartItems = ({ setLoading }) => {
           type: "REMOVE_FROM_CART",
           payload: { itemId: removedCartItem.productId },
         });
-
         setLoading(false);
       } catch (error) {
         console.log(error);

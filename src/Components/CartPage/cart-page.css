@@ -8,6 +8,7 @@
   position: absolute;
   right: 3rem;
 }
+
 .cart-items-container {
   padding: 1rem;
   display: flex;
@@ -36,6 +37,8 @@
 
 .no-shadow {
   box-shadow: none;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.1rem;
 }
 .quantity {
   margin: 0.5rem;

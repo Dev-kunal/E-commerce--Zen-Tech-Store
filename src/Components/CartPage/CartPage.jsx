@@ -8,29 +8,33 @@ import { RenderCartItems } from "./RenderCartItems";
 import StripeCheckout from "react-stripe-checkout";
 
 export const CartPage = () => {
-  const { itemsInCart, dispatch, showToast, toastMessage } = useCart();
+  const { itemsInCart, dispatch, showToast, toastMessage, loadCartChanges } =
+    useCart();
   const [loading, setLoading] = useState(false);
   const [totalCartPrice, setTotalCart] = useState(0);
   const toast = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    (async () => {
-      try {
-        setLoading(true);
-        const { cart } = await UseAxios("GET", "/cart");
-        dispatch({
-          type: "SET_CART",
-          payload: { cart },
-        });
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
+    if (loadCartChanges) {
+      (async () => {
+        try {
+          setLoading(true);
+          const { cart } = await UseAxios("GET", "/cart");
+          dispatch({
+            type: "SET_CART",
+            payload: { cart },
+          });
+          setLoading(false);
+        } catch (error) {
+          console.log(error);
+        }
+      })();
+    }
+  }, [loadCartChanges]);
 
   const makePayment = async (token) => {
+    console.log("inside payment");
     const body = {
       token,
       itemsInCart,
@@ -43,7 +47,7 @@ export const CartPage = () => {
       });
     }
     dispatch({
-      type: "SHOW_TOAST",
+      type: "ORDER_PLACED",
       payload: { message: "Payment Recieved succesfully" },
     });
   };
@@ -51,7 +55,7 @@ export const CartPage = () => {
   if (showToast) {
     setTimeout(() => {
       dispatch({ type: "HIDE_TOAST" });
-    }, 1000);
+    }, 2000);
   }
   useEffect(() => {
     setTotalCart(
@@ -90,16 +94,18 @@ export const CartPage = () => {
           ) : (
             <div className="cart-page">
               <div className="cart-subtotal">
-                Total Cart Price :<strong>₹{totalCartPrice}</strong>
+                Total Cart Price :<strong>₹ {totalCartPrice}</strong>
                 <br />
                 <StripeCheckout
                   stripeKey={process.env.REACT_APP_KEY}
                   token={makePayment}
                   name="Zen Tech Store"
+                  amount={totalCartPrice * 100}
+                  currency="INR"
                   shippingAddress
                   billingAddress
                 >
-                  <button className="btn cart-btn">Checkout</button>
+                  {/* <button className="btn cart-btn">Checkout</button> */}
                 </StripeCheckout>
               </div>
               <div className="cart-items-container">

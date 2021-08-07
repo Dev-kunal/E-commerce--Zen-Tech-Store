@@ -7,7 +7,8 @@ import Loader from "react-loader-spinner";
 import "./wishlist.css";
 
 export const WishlistPage = () => {
-  const { wishlist, dispatch, showToast, toastMessage } = useCart();
+  const { wishlist, dispatch, showToast, toastMessage, loadWishlistChanges } =
+    useCart();
   const [loading, setloading] = useState(false);
   const toast = useRef(null);
   const navigate = useNavigate();
@@ -18,21 +19,23 @@ export const WishlistPage = () => {
     }, 1000);
   }
   useEffect(() => {
-    (async () => {
-      try {
-        setloading(true);
-        const { wishlist } = await UseAxios("GET", "/wishlist");
-        setloading(false);
+    if (loadWishlistChanges) {
+      (async () => {
+        try {
+          setloading(true);
+          const { wishlist } = await UseAxios("GET", "/wishlist");
+          setloading(false);
 
-        dispatch({
-          type: "SET_WISHLIST",
-          payload: { wishlist },
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
+          dispatch({
+            type: "SET_WISHLIST",
+            payload: { wishlist },
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      })();
+    }
+  }, [loadWishlistChanges]);
 
   return (
     <div className="wishlist-page">

@@ -11,6 +11,8 @@ import "./product-detail.css";
 export const ProductDetail = () => {
   const [loading, setLoading] = useState(true);
   const [product, setproduct] = useState(null);
+  const [wishlistLoader, setWishlistLoader] = useState(false);
+  const [cartLoader, setCartLoader] = useState(false);
   const { dispatch, showToast, toastMessage, wishlist, itemsInCart } =
     useCart();
   const { token } = useAuth();
@@ -42,7 +44,7 @@ export const ProductDetail = () => {
           const obj = {
             productId: id,
           };
-          setLoading(true);
+          setWishlistLoader(true);
           const { newItemInWishlist } = await UseAxios(
             "POST",
             "/wishlist",
@@ -53,7 +55,7 @@ export const ProductDetail = () => {
             type: "ADD_TO_WISHLIST",
             payload: { newItemInWishlist },
           });
-          setLoading(false);
+          setWishlistLoader(false);
         } catch (error) {
           console.log(error);
         }
@@ -62,24 +64,25 @@ export const ProductDetail = () => {
       navigate("/login");
     }
   };
-  const handleAddToCart = (id) => {
+  const addToCart = (id) => {
     if (token) {
       (async () => {
         try {
           const obj = {
             productId: id,
           };
-          setLoading(true);
+          setCartLoader(true);
           if (
             itemsInCart.filter((product) => product.productId._id === id).length
           ) {
-            setLoading(false);
+            setCartLoader(false);
             dispatch({
               type: "SHOW_TOAST",
               payload: { message: "Product is already present Cart" },
             });
           } else {
             const { newCartItem } = await UseAxios("POST", "/cart", obj);
+            setCartLoader(false);
             dispatch({
               type: "ADD_TO_CART",
               payload: { newCartItem },
@@ -102,14 +105,13 @@ export const ProductDetail = () => {
           const obj = {
             productId: id,
           };
-          setLoading(true);
+          setWishlistLoader(true);
           const { deletedItem } = await UseAxios(
             "POST",
             `wishlist/remove`,
             obj
           );
-          // console.log(deletedItem);
-          setLoading(false);
+          setWishlistLoader(false);
           dispatch({
             type: "REMOVE_FROM_WISHLIST",
             payload: { itemId: deletedItem.productId },
@@ -154,14 +156,38 @@ export const ProductDetail = () => {
                     className="wishlist-badge wishlist-btn"
                     onClick={() => removeFromWishlist(product._id)}
                   >
-                    <i className="fa fa-heart"></i>
+                    {wishlistLoader ? (
+                      <div className="btn-container">
+                        <Loader
+                          type="ThreeDots"
+                          color="#2bc48a"
+                          height={10}
+                          width={20}
+                          timeout={2000}
+                        />
+                      </div>
+                    ) : (
+                      <i className="fa fa-heart"></i>
+                    )}
                   </button>
                 ) : (
                   <button
                     className="wishlist-badge wishlist-btn"
                     onClick={() => addToWishlist(product._id)}
                   >
-                    <i className="fa fa-heart-o"></i>
+                    {wishlistLoader ? (
+                      <div className="btn-container">
+                        <Loader
+                          type="ThreeDots"
+                          color="#2bc48a"
+                          height={10}
+                          width={20}
+                          timeout={1000}
+                        />
+                      </div>
+                    ) : (
+                      <i className="fa fa-heart-o"></i>
+                    )}
                   </button>
                 )}
                 <h2 style={{ marginTop: "0" }}>{product.name}</h2>
@@ -192,12 +218,23 @@ export const ProductDetail = () => {
                 </ul>
                 <div>
                   <button
-                    onClick={() => handleAddToCart(product._id)}
+                    onClick={() => addToCart(product._id)}
                     className="btn btn-lg"
                   >
-                    ADD TO CART
+                    {cartLoader ? (
+                      <div className="btn-container">
+                        <Loader
+                          type="ThreeDots"
+                          color="#ffffff"
+                          height={10}
+                          width={50}
+                          timeout={1000}
+                        />
+                      </div>
+                    ) : (
+                      "ADD TO CART"
+                    )}
                   </button>
-                  <button className="btn btn-lg">BUY NOW</button>
                 </div>
               </div>
             </div>

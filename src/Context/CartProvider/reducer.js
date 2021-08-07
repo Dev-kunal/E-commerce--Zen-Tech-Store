@@ -5,6 +5,8 @@ export const initialState = {
   productData,
   itemsInCart,
   wishlist,
+  loadWishlistChanges: false,
+  loadCartChanges: false,
   showToast: false,
   toastMessage: "",
   sortBy: null,
@@ -38,6 +40,7 @@ export const cartReducer = (state, { type, payload }) => {
       return {
         ...state,
         showToast: true,
+        loadWishlistChanges: true,
         toastMessage: "Product Added To Wishlist",
         wishlist: [...state.wishlist, payload.newItemInWishlist],
       };
@@ -54,6 +57,7 @@ export const cartReducer = (state, { type, payload }) => {
       return {
         ...state,
         showToast: true,
+        loadCartChanges: true,
         toastMessage: "Product Added To Cart",
         itemsInCart: [...state.itemsInCart, payload.newCartItem],
       };
@@ -113,6 +117,13 @@ export const cartReducer = (state, { type, payload }) => {
             ? payload.updatedProduct
             : item
         ),
+      };
+    case "ORDER_PLACED":
+      return {
+        ...state,
+        itemsInCart: [],
+        showToast: true,
+        toastMessage: payload.message,
       };
 
     case "PRICE_LOW_TO_HIGH":

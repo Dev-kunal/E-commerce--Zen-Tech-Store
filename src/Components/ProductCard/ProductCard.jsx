@@ -10,6 +10,8 @@ export const ProductCard = ({ product }) => {
   const { wishlist, dispatch, itemsInCart } = useCart();
   const { token } = useAuth();
   const [loading, setloading] = useState(false);
+  const [wishlistLoader, setWishlistLoader] = useState(false);
+  const [cartLoader, setCartLoader] = useState(false);
   const navigate = useNavigate();
 
   const productClick = (id) => {
@@ -21,9 +23,9 @@ export const ProductCard = ({ product }) => {
         const obj = {
           productId: id,
         };
-        setloading(true);
+        setWishlistLoader(true);
         const { deletedItem } = await UseAxios("POST", `wishlist/remove`, obj);
-        setloading(false);
+        setWishlistLoader(false);
         dispatch({
           type: "REMOVE_FROM_WISHLIST",
           payload: { itemId: deletedItem.productId },
@@ -41,14 +43,14 @@ export const ProductCard = ({ product }) => {
         const obj = {
           productId: id,
         };
-        setloading(true);
+        setWishlistLoader(true);
         const { newItemInWishlist } = await UseAxios("POST", "/wishlist", obj);
         console.log(newItemInWishlist);
         dispatch({
           type: "ADD_TO_WISHLIST",
           payload: { newItemInWishlist },
         });
-        setloading(false);
+        setWishlistLoader(false);
       } catch (error) {
         console.log(error);
       }
@@ -61,17 +63,18 @@ export const ProductCard = ({ product }) => {
         const obj = {
           productId: id,
         };
-        setloading(true);
+        setCartLoader(true);
         if (
           itemsInCart.filter((product) => product.productId._id === id).length
         ) {
-          setloading(false);
+          setCartLoader(false);
           dispatch({
             type: "SHOW_TOAST",
             payload: { message: "Product is already present Cart" },
           });
         } else {
           const { newCartItem } = await UseAxios("POST", "/cart", obj);
+          setCartLoader(false);
           dispatch({
             type: "ADD_TO_CART",
             payload: { newCartItem },
@@ -102,7 +105,19 @@ export const ProductCard = ({ product }) => {
               className="wishlist-badge wishlist-btn"
               onClick={() => removeFromWishlist(product._id)}
             >
-              <i className="fa fa-heart"></i>
+              {wishlistLoader ? (
+                <div className="btn-container">
+                  <Loader
+                    type="ThreeDots"
+                    color="#2bc48a"
+                    height={10}
+                    width={20}
+                    timeout={2000}
+                  />
+                </div>
+              ) : (
+                <i className="fa fa-heart"></i>
+              )}
             </button>
           ) : (
             <button
@@ -111,11 +126,22 @@ export const ProductCard = ({ product }) => {
                 token ? addToWishlist(product._id) : navigate("/login");
               }}
             >
-              <i className="fa fa-heart-o"></i>
+              {wishlistLoader ? (
+                <div className="btn-container">
+                  <Loader
+                    type="ThreeDots"
+                    color="#2bc48a"
+                    height={10}
+                    width={20}
+                    timeout={1000}
+                  />
+                </div>
+              ) : (
+                <i className="fa fa-heart-o"></i>
+              )}
             </button>
           )}
-
-          <div className="card-img">
+          <div className="card-img" onClick={() => productClick(product._id)}>
             <img
               src={product.images[0]}
               width="100%"
@@ -140,18 +166,24 @@ export const ProductCard = ({ product }) => {
             </p>
           </div>
           <button
-            className="btn "
+            className="btn btn-add-to-cart"
             onClick={() =>
               token ? addToCart(product._id) : navigate("/login")
             }
           >
-            add to Cart
-          </button>
-          <button
-            onClick={() => productClick(product._id)}
-            className="btn btn-secondary"
-          >
-            See Details
+            {cartLoader ? (
+              <div className="btn-container">
+                <Loader
+                  type="ThreeDots"
+                  color="#ffffff"
+                  height={10}
+                  width={20}
+                  timeout={1000}
+                />
+              </div>
+            ) : (
+              "Add to Cart"
+            )}
           </button>
         </>
       )}

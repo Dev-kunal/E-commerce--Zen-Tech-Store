@@ -18,8 +18,6 @@ export const ProductPage = () => {
     dispatch,
   } = useCart();
   const [sliderValue, setSliderValue] = useState(150000);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResult] = useState(productData);
   const [loading, setLoading] = useState(false);
   const toast = useRef(null);
 
@@ -64,15 +62,6 @@ export const ProductPage = () => {
     return productData.filter(({ price }) => price <= priceRange);
   };
   const finalData = filterByPrice(filteredData, sliderValue);
-
-  useEffect(() => {
-    setSearchResult((prevData) => {
-      return [
-        ...prevData,
-        productData.filter((product) => product.name === searchTerm),
-      ];
-    });
-  }, [searchTerm]);
 
   return (
     <>
