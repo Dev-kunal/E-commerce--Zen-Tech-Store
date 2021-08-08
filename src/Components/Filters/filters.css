@@ -1,12 +1,10 @@
 .filters {
-  margin-top: 3.1rem;
+  margin-top: -1.3rem;
   margin-right: 5rem;
   min-width: 18%;
   padding: 1rem;
   height: max-content;
-  background-color: #fafafa;
 }
-
 fieldset {
   border-radius: 0.15rem;
   padding: 1rem;
