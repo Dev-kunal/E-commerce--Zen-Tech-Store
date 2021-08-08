@@ -48,9 +48,9 @@
     font-size: xx-small;
   }
   .product-card {
-    margin: 0.4rem;
+    margin: 0.2rem;
     padding: 0.2rem;
-    max-width: 9rem;
+    max-width: 48%;
   }
   .wishlist-badge {
     position: absolute;
