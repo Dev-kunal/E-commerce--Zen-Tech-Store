@@ -4,7 +4,7 @@ import "./product-card.css";
 import { useAuth } from "../../Context/UserProvider";
 import Loader from "react-loader-spinner";
 import { useState } from "react";
-import { UseAxios } from "../../Utils/UseAxios";
+import { addToCart, addToWishlist, removeFromWishlist } from "./services";
 
 export const ProductCard = ({ product }) => {
   const { wishlist, dispatch, itemsInCart } = useCart();
@@ -16,76 +16,6 @@ export const ProductCard = ({ product }) => {
 
   const productClick = (id) => {
     navigate(`/products/${id}`);
-  };
-  const removeFromWishlist = (id) => {
-    (async () => {
-      try {
-        const obj = {
-          productId: id,
-        };
-        setWishlistLoader(true);
-        const { deletedItem } = await UseAxios("POST", `wishlist/remove`, obj);
-        setWishlistLoader(false);
-        dispatch({
-          type: "REMOVE_FROM_WISHLIST",
-          payload: { itemId: deletedItem.productId },
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  };
-
-  const addToWishlist = (id) => {
-    console.log("Inside wihslist");
-    (async () => {
-      try {
-        const obj = {
-          productId: id,
-        };
-        setWishlistLoader(true);
-        const { newItemInWishlist } = await UseAxios("POST", "/wishlist", obj);
-        console.log(newItemInWishlist);
-        dispatch({
-          type: "ADD_TO_WISHLIST",
-          payload: { newItemInWishlist },
-        });
-        setWishlistLoader(false);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  };
-
-  const addToCart = (id) => {
-    (async () => {
-      try {
-        const obj = {
-          productId: id,
-        };
-        setCartLoader(true);
-        if (
-          itemsInCart.filter((product) => product.productId._id === id).length
-        ) {
-          setCartLoader(false);
-          dispatch({
-            type: "SHOW_TOAST",
-            payload: { message: "Product is already present Cart" },
-          });
-        } else {
-          const { newCartItem } = await UseAxios("POST", "/cart", obj);
-          setCartLoader(false);
-          dispatch({
-            type: "ADD_TO_CART",
-            payload: { newCartItem },
-          });
-        }
-
-        setloading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
   };
 
   return (
@@ -103,7 +33,13 @@ export const ProductCard = ({ product }) => {
           {wishlist?.some((item) => item?.productId._id === product._id) ? (
             <button
               className="wishlist-badge wishlist-btn"
-              onClick={() => removeFromWishlist(product._id)}
+              onClick={() =>
+                removeFromWishlist({
+                  id: product._id,
+                  dispatch,
+                  setWishlistLoader,
+                })
+              }
             >
               {wishlistLoader ? (
                 <div className="btn-container">
@@ -123,7 +59,13 @@ export const ProductCard = ({ product }) => {
             <button
               className="wishlist-badge wishlist-btn"
               onClick={() => {
-                token ? addToWishlist(product._id) : navigate("/login");
+                token
+                  ? addToWishlist({
+                      id: product._id,
+                      dispatch,
+                      setWishlistLoader,
+                    })
+                  : navigate("/login");
               }}
             >
               {wishlistLoader ? (
@@ -168,7 +110,14 @@ export const ProductCard = ({ product }) => {
           <button
             className="btn btn-add-to-cart"
             onClick={() =>
-              token ? addToCart(product._id) : navigate("/login")
+              token
+                ? addToCart({
+                    id: product._id,
+                    dispatch,
+                    itemsInCart,
+                    setCartLoader,
+                  })
+                : navigate("/login")
             }
           >
             {cartLoader ? (

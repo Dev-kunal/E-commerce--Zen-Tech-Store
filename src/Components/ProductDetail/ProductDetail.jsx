@@ -3,14 +3,19 @@ import { useParams } from "react-router-dom";
 import { useCart } from "../../Context/CartProvider";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/UserProvider";
-
 import { UseAxios } from "../../Utils/UseAxios";
 import Loader from "react-loader-spinner";
 import "./product-detail.css";
+import {
+  loadProduct,
+  addToWishlist,
+  removeFromWishlist,
+  addToCart,
+} from "./services";
 
 export const ProductDetail = () => {
-  const [loading, setLoading] = useState(true);
-  const [product, setproduct] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [product, setProduct] = useState(null);
   const [wishlistLoader, setWishlistLoader] = useState(false);
   const [cartLoader, setCartLoader] = useState(false);
   const { dispatch, showToast, toastMessage, wishlist, itemsInCart } =
@@ -20,15 +25,7 @@ export const ProductDetail = () => {
 
   const navigate = useNavigate();
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await UseAxios("GET", `/products/${productId}`);
-        setproduct(response.product);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+    loadProduct({ productId, setProduct, setLoading });
   }, []);
 
   const toast = useRef(null);
@@ -37,91 +34,7 @@ export const ProductDetail = () => {
       dispatch({ type: "HIDE_TOAST" });
     }, 1000);
   }
-  const addToWishlist = (id) => {
-    if (token) {
-      (async () => {
-        try {
-          const obj = {
-            productId: id,
-          };
-          setWishlistLoader(true);
-          const { newItemInWishlist } = await UseAxios(
-            "POST",
-            "/wishlist",
-            obj
-          );
-          console.log("saved item in wishlist", newItemInWishlist);
-          dispatch({
-            type: "ADD_TO_WISHLIST",
-            payload: { newItemInWishlist },
-          });
-          setWishlistLoader(false);
-        } catch (error) {
-          console.log(error);
-        }
-      })();
-    } else {
-      navigate("/login");
-    }
-  };
-  const addToCart = (id) => {
-    if (token) {
-      (async () => {
-        try {
-          const obj = {
-            productId: id,
-          };
-          setCartLoader(true);
-          if (
-            itemsInCart.filter((product) => product.productId._id === id).length
-          ) {
-            setCartLoader(false);
-            dispatch({
-              type: "SHOW_TOAST",
-              payload: { message: "Product is already present Cart" },
-            });
-          } else {
-            const { newCartItem } = await UseAxios("POST", "/cart", obj);
-            setCartLoader(false);
-            dispatch({
-              type: "ADD_TO_CART",
-              payload: { newCartItem },
-            });
-          }
 
-          setLoading(false);
-        } catch (error) {
-          console.log(error);
-        }
-      })();
-    } else {
-      navigate("/login");
-    }
-  };
-  const removeFromWishlist = (id) => {
-    if (token) {
-      (async () => {
-        try {
-          const obj = {
-            productId: id,
-          };
-          setWishlistLoader(true);
-          const { deletedItem } = await UseAxios(
-            "POST",
-            `wishlist/remove`,
-            obj
-          );
-          setWishlistLoader(false);
-          dispatch({
-            type: "REMOVE_FROM_WISHLIST",
-            payload: { itemId: deletedItem.productId },
-          });
-        } catch (error) {
-          console.log(error);
-        }
-      })();
-    }
-  };
   return (
     <>
       {loading && (
@@ -154,7 +67,14 @@ export const ProductDetail = () => {
                 ) ? (
                   <button
                     className="wishlist-badge wishlist-btn"
-                    onClick={() => removeFromWishlist(product._id)}
+                    onClick={() =>
+                      removeFromWishlist({
+                        id: product._id,
+                        token,
+                        setWishlistLoader,
+                        dispatch,
+                      })
+                    }
                   >
                     {wishlistLoader ? (
                       <div className="btn-container">
@@ -173,7 +93,14 @@ export const ProductDetail = () => {
                 ) : (
                   <button
                     className="wishlist-badge wishlist-btn"
-                    onClick={() => addToWishlist(product._id)}
+                    onClick={() =>
+                      addToWishlist({
+                        id: product._id,
+                        token,
+                        dispatch,
+                        setWishlistLoader,
+                      })
+                    }
                   >
                     {wishlistLoader ? (
                       <div className="btn-container">
@@ -218,7 +145,15 @@ export const ProductDetail = () => {
                 </ul>
                 <div>
                   <button
-                    onClick={() => addToCart(product._id)}
+                    onClick={() =>
+                      addToCart({
+                        id: product._id,
+                        token,
+                        dispatch,
+                        setCartLoader,
+                        itemsInCart,
+                      })
+                    }
                     className="btn btn-lg"
                   >
                     {cartLoader ? (

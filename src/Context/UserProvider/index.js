@@ -38,6 +38,13 @@ export const userReducer = (state, { type, payload }) => {
         user: payload.user,
       };
 
+    case "LOGOUT":
+      return {
+        ...state,
+        token: null,
+        user: null,
+      };
+
     default:
       return state;
   }

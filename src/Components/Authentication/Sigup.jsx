@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { UseAxios } from "../../Utils/UseAxios";
 import { useCart } from "../../Context/CartProvider";
 import "./auth.css";
+import { signUpUser } from "./services";
 export const Signup = () => {
   const [userDetails, setUserDetails] = useState({
     email: "",
@@ -27,28 +28,16 @@ export const Signup = () => {
       };
     });
   };
-  const handleFormSubmit = async (event) => {
+  const submitForm = async (event) => {
     event.preventDefault();
-    try {
-      const { success, message } = await UseAxios(
-        "POST",
-        "/user/signup",
-        userDetails
-      );
-      dispatch({
-        type: "SHOW_TOAST",
-        payload: { message: message },
+    const res = await signUpUser({ userDetails, dispatch });
+    if (res) {
+      setUserDetails({
+        email: "",
+        username: "",
+        fullname: "",
+        password: "",
       });
-      if (success) {
-        setUserDetails({
-          email: "",
-          username: "",
-          fullname: "",
-          password: "",
-        });
-      }
-    } catch (err) {
-      console.log(err);
     }
   };
   return (
@@ -57,10 +46,7 @@ export const Signup = () => {
         <div className="form-header">
           <h2 style={{ margin: "1rem auto" }}>Sign-Up</h2>
         </div>
-        <form
-          onSubmit={(event) => handleFormSubmit(event)}
-          className="auth-form"
-        >
+        <form onSubmit={(event) => submitForm(event)} className="auth-form">
           <div class="input-group">
             <label class="input-label" for="input-email">
               Email

@@ -2,9 +2,10 @@ import { useRef, useEffect, useState } from "react";
 import { useCart } from "../../Context/CartProvider";
 import { useNavigate } from "react-router-dom";
 import { RenderWishlistItems } from "./RenderWishlistItems";
-import { UseAxios } from "../../Utils/UseAxios";
+
 import Loader from "react-loader-spinner";
 import "./wishlist.css";
+import { loadWishlist } from "./services";
 
 export const WishlistPage = () => {
   const { wishlist, dispatch, showToast, toastMessage, loadWishlistChanges } =
@@ -20,20 +21,10 @@ export const WishlistPage = () => {
   }
   useEffect(() => {
     if (loadWishlistChanges) {
-      (async () => {
-        try {
-          setloading(true);
-          const { wishlist } = await UseAxios("GET", "/wishlist");
-          setloading(false);
-
-          dispatch({
-            type: "SET_WISHLIST",
-            payload: { wishlist },
-          });
-        } catch (error) {
-          console.log(error);
-        }
-      })();
+      loadWishlist({
+        dispatch,
+        setloading,
+      });
     }
   }, [loadWishlistChanges]);
 

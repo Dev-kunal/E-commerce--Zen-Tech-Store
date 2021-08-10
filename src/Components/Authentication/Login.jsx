@@ -11,6 +11,7 @@ import Loader from "react-loader-spinner";
 import "./auth.css";
 import { useAuth } from "../../Context/UserProvider";
 import { useCart } from "../../Context/CartProvider";
+import { loginUser } from "./services";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -39,42 +40,22 @@ export const Login = () => {
       };
     });
   };
-  const handleFormSubmit = (event) => {
-    setLoading(true);
+  const submitForm = async (event) => {
     event.preventDefault();
-    const obj = userDetails;
-    (async () => {
-      try {
-        const { success, user, token, message } = await UseAxios(
-          "POST",
-          "/user/login",
-          obj
-        );
-        if (!success) {
-          dispatch({
-            type: "SHOW_TOAST",
-            payload: { message: message },
-          });
-          setLoading(false);
-        } else {
-          setupAuthHeaderForServiceCalls(token);
-          saveDataToLocalStorage(token, user);
-          userDispatch({
-            type: "SET_LOGIN",
-            payload: { user: user, token },
-          });
-          setUserDetails({
-            username: "",
-            password: "",
-          });
-          setLoading(false);
-          navigate(state?.from ? state.from : "/products");
-        }
-      } catch (err) {
-        setLoading(false);
-        console.log(err);
-      }
-    })();
+    setLoading(true);
+    const res = await loginUser({
+      userDetails,
+      dispatch,
+      userDispatch,
+      setLoading,
+    });
+    if (res) {
+      setUserDetails({
+        username: "",
+        password: "",
+      });
+      navigate(state?.from ? state.from : "/products");
+    }
   };
   return (
     <div className="login-page">
@@ -82,10 +63,7 @@ export const Login = () => {
         <div className="form-header">
           <h2 style={{ margin: "1rem auto" }}>Login</h2>
         </div>
-        <form
-          onSubmit={(event) => handleFormSubmit(event)}
-          className="auth-form"
-        >
+        <form onSubmit={(event) => submitForm(event)} className="auth-form">
           <div className="input-group">
             <label className="input-label" htmlFor="input-uname">
               Username

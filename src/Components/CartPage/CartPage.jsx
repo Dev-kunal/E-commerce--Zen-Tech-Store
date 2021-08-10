@@ -4,8 +4,9 @@ import "./cart-page.css";
 import { useNavigate } from "react-router-dom";
 import { UseAxios } from "../../Utils/UseAxios";
 import Loader from "react-loader-spinner";
-import { RenderCartItems } from "./RenderCartItems";
 import StripeCheckout from "react-stripe-checkout";
+import { loadCart } from "./services";
+import { CartItem } from "./CartItem";
 
 export const CartPage = () => {
   const { itemsInCart, dispatch, showToast, toastMessage, loadCartChanges } =
@@ -17,19 +18,7 @@ export const CartPage = () => {
 
   useEffect(() => {
     if (loadCartChanges) {
-      (async () => {
-        try {
-          setLoading(true);
-          const { cart } = await UseAxios("GET", "/cart");
-          dispatch({
-            type: "SET_CART",
-            payload: { cart },
-          });
-          setLoading(false);
-        } catch (error) {
-          console.log(error);
-        }
-      })();
+      loadCart({ dispatch, setLoading });
     }
   }, [loadCartChanges]);
 
@@ -48,7 +37,7 @@ export const CartPage = () => {
     }
     dispatch({
       type: "ORDER_PLACED",
-      payload: { message: "Payment Recieved succesfully" },
+      payload: { message: message },
     });
   };
 
@@ -98,18 +87,19 @@ export const CartPage = () => {
                 <br />
                 <StripeCheckout
                   stripeKey={process.env.REACT_APP_KEY}
-                  token={makePayment}
+                  token={() => makePayment()}
                   name="Zen Tech Store"
                   amount={totalCartPrice * 100}
                   currency="INR"
                   shippingAddress
                   billingAddress
-                >
-                  {/* <button className="btn cart-btn">Checkout</button> */}
-                </StripeCheckout>
+                ></StripeCheckout>
               </div>
               <div className="cart-items-container">
-                <RenderCartItems setLoading={setLoading} />
+                {/* <RenderCartItems setLoading={setLoading} /> */}
+                {itemsInCart?.map((item) => (
+                  <CartItem {...item} setLoading={setLoading} />
+                ))}
               </div>
               {showToast && (
                 <div className="toast toast-n" ref={toast}>

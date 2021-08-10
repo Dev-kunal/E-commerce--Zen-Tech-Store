@@ -34,6 +34,9 @@
   max-height: 18rem;
   max-width: 18rem;
 }
+.cart-img:hover {
+  cursor: pointer;
+}
 
 .no-shadow {
   box-shadow: none;
@@ -41,7 +44,8 @@
   border-radius: 0.1rem;
 }
 .quantity {
-  margin: 0.5rem;
+  display: inline-block;
+  padding: 0rem 1.5rem;
 }
 
 @media screen and (max-width: 767px) {

@@ -3,9 +3,9 @@ import { useCart } from "../../Context/CartProvider";
 import { Filters } from "../Filters/Filters";
 import { ProductCard } from "../ProductCard/ProductCard";
 import { getSortedData, getFilteredData } from "../../Utils";
-import { UseAxios } from "../../Utils/UseAxios";
 import Loader from "react-loader-spinner";
 import "./product-page.css";
+import { getProducts } from "./services";
 
 export const ProductPage = () => {
   const {
@@ -27,29 +27,7 @@ export const ProductPage = () => {
     }, 1000);
   }
   useEffect(() => {
-    (async () => {
-      try {
-        setLoading(true);
-        const { success, message, products } = await UseAxios(
-          "GET",
-          "/products"
-        );
-        setLoading(false);
-        if (success) {
-          dispatch({
-            type: "SET_PRODUCTS",
-            payload: { products: products },
-          });
-        } else {
-          dispatch({
-            type: "SHOW_TOAST",
-            payload: { message: message },
-          });
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+    getProducts({ setLoading, dispatch });
   }, []);
 
   const sortedData = getSortedData(productData, sortBy);
