@@ -7,7 +7,6 @@ export const addToCart = async ({
   setCartLoader,
 }) => {
   try {
-    console.log("Inside service call", id);
     const body = {
       productId: id,
     };

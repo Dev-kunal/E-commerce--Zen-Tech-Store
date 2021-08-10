@@ -23,7 +23,6 @@ export const CartPage = () => {
   }, [loadCartChanges]);
 
   const makePayment = async (token) => {
-    console.log("inside payment");
     const body = {
       token,
       itemsInCart,
@@ -96,9 +95,12 @@ export const CartPage = () => {
                 ></StripeCheckout>
               </div>
               <div className="cart-items-container">
-                {/* <RenderCartItems setLoading={setLoading} /> */}
                 {itemsInCart?.map((item) => (
-                  <CartItem {...item} setLoading={setLoading} />
+                  <CartItem
+                    {...item}
+                    setLoading={setLoading}
+                    key={item.productId._id}
+                  />
                 ))}
               </div>
               {showToast && (

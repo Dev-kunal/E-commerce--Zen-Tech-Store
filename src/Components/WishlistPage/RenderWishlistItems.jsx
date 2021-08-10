@@ -1,10 +1,20 @@
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartProvider";
-import { removeItemFromWishlist, addToCart } from "./services";
+import { removeItemFromWishlist, addToCartFromWishlist } from "./services";
 
 export const RenderWishlistItems = ({ setloading }) => {
   const { wishlist, dispatch, itemsInCart } = useCart();
   const navigate = useNavigate();
+  const addToCart = (id) => {
+    if (itemsInCart.filter((product) => product.productId._id === id).length) {
+      dispatch({
+        type: "SHOW_TOAST",
+        payload: { message: "Product is already present in Cart" },
+      });
+    } else {
+      addToCartFromWishlist({ id, dispatch, setloading });
+    }
+  };
 
   return wishlist?.map(({ productId: { _id, name, price, images } }) => (
     <div className="card product-card" key={_id}>
@@ -29,12 +39,7 @@ export const RenderWishlistItems = ({ setloading }) => {
       >
         Remove
       </button>
-      <button
-        className="btn card-btn"
-        onClick={() =>
-          addToCart({ id: _id, itemsInCart, dispatch, setloading })
-        }
-      >
+      <button className="btn card-btn" onClick={() => addToCart(_id)}>
         add To Cart
       </button>
     </div>

@@ -29,11 +29,13 @@ export const cartReducer = (state, { type, payload }) => {
     case "SET_CART":
       return {
         ...state,
+        loadCartChanges: false,
         itemsInCart: payload.cart,
       };
     case "SET_WISHLIST":
       return {
         ...state,
+        loadWishlistChanges: false,
         wishlist: payload.wishlist,
       };
     case "ADD_TO_WISHLIST":

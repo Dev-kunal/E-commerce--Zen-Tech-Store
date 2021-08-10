@@ -1,6 +1,6 @@
-import { useAuth } from "../Context/UserProvider";
+import { useAuth } from "../../Context/UserProvider";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "../Context/CartProvider";
+import { useCart } from "../../Context/CartProvider";
 
 export const User = () => {
   const { userDispatch, user } = useAuth();

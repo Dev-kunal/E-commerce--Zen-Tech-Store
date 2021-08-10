@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { UseAxios } from "../../Utils/UseAxios";
 import { useCart } from "../../Context/CartProvider";
 import "./auth.css";
 import { signUpUser } from "./services";

@@ -2,7 +2,6 @@ import { useRef, useEffect, useState } from "react";
 import { useCart } from "../../Context/CartProvider";
 import { useNavigate } from "react-router-dom";
 import { RenderWishlistItems } from "./RenderWishlistItems";
-
 import Loader from "react-loader-spinner";
 import "./wishlist.css";
 import { loadWishlist } from "./services";
@@ -19,6 +18,7 @@ export const WishlistPage = () => {
       dispatch({ type: "HIDE_TOAST" });
     }, 1000);
   }
+
   useEffect(() => {
     if (loadWishlistChanges) {
       loadWishlist({

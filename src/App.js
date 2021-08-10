@@ -1,19 +1,25 @@
 import { useEffect } from "react";
-import { CartPage, Login } from "./Components";
-import { Navbar } from "./Components";
-import { ProductPage } from "./Components";
-import { WishlistPage } from "./Components";
-import { ProductDetail } from "./Components";
-import { HomePage } from "./Components";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import "./styles.css";
 import { useAuth } from "./Context/UserProvider";
-import { Signup } from "./Components/Authentication/Sigup";
-import { User } from "./Components/User";
 import { PrivateRoute } from "./Utils/PrivateRoute";
-import { setupAuthExceptionHandler, UseAxios } from "./Utils/UseAxios";
+import {
+  setupAuthExceptionHandler,
+  UseAxios,
+  setupAuthHeaderForServiceCalls,
+} from "./Utils/UseAxios";
 import { useCart } from "./Context/CartProvider";
-import { setupAuthHeaderForServiceCalls } from "./Utils/UseAxios";
+import {
+  HomePage,
+  ProductPage,
+  WishlistPage,
+  ProductDetail,
+  Navbar,
+  CartPage,
+  Login,
+  Signup,
+  User,
+} from "./Components";
 
 export default function App() {
   const { token, userDispatch } = useAuth();
