@@ -1,6 +1,5 @@
-import { FilterModal } from "./FilterModal";
-import { useCart } from "../CartContext";
-import { useState } from "react";
+import { useCart } from "../../Context/CartProvider";
+import "./filters.css";
 
 export const Filters = ({ sliderValue, setSliderValue }) => {
   const { sortBy, dispatch } = useCart();
@@ -16,7 +15,9 @@ export const Filters = ({ sliderValue, setSliderValue }) => {
               type="radio"
               name="sortPrice"
               onChange={() =>
-                dispatch({ type: "SORT", payload: "PRICE_LOW_TO_HIGH" })
+                dispatch({
+                  type: "PRICE_LOW_TO_HIGH",
+                })
               }
               checked={sortBy && sortBy === "PRICE_LOW_TO_HIGH"}
             />
@@ -28,7 +29,9 @@ export const Filters = ({ sliderValue, setSliderValue }) => {
               type="radio"
               name="sortPrice"
               onChange={() =>
-                dispatch({ type: "SORT", payload: "PRICE_HIGH_TO_LOW" })
+                dispatch({
+                  type: "PRICE_HIGH_TO_LOW",
+                })
               }
               checked={sortBy && sortBy === "PRICE_HIGH_TO_LOW"}
             />
@@ -42,8 +45,7 @@ export const Filters = ({ sliderValue, setSliderValue }) => {
               type="checkbox"
               onChange={() =>
                 dispatch({
-                  type: "toggleDeliveryType",
-                  payload: "TOGGLE_FAST_DELIVERY"
+                  type: "TOGGLE_FAST_DELIVERY",
                 })
               }
             />
@@ -55,8 +57,7 @@ export const Filters = ({ sliderValue, setSliderValue }) => {
               type="checkbox"
               onChange={() =>
                 dispatch({
-                  type: "toggleInventory",
-                  payload: "TOGGLE_INVENTORY"
+                  type: "TOGGLE_INVENTORY",
                 })
               }
             />
@@ -76,7 +77,8 @@ export const Filters = ({ sliderValue, setSliderValue }) => {
               min="5000"
               max="200000"
             />
-            <br />₹ {sliderValue}
+            <br />
+            5000 - {sliderValue} ₹
           </label>
         </fieldset>
       </form>

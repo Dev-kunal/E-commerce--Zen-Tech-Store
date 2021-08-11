@@ -1,0 +1,18 @@
+.wishlist-page {
+  padding: 3rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 767px) {
+  .wishlist-page {
+    padding: 0rem;
+    width: 100vw;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: auto;
+  }
+}

@@ -1,0 +1,70 @@
+.card {
+  margin-bottom: 1rem;
+  text-align: left;
+  position: relative;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+}
+.card-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+.card-img:hover {
+  cursor: pointer;
+}
+.btn {
+  margin: 0.2rem;
+  padding: 0.1rem 0.2rem;
+  border-radius: 0.1rem;
+}
+.card fa {
+  color: #2bc48a;
+}
+.old-price {
+  text-decoration: line-through;
+  margin-left: 0.5rem;
+  color: grey;
+}
+.rating {
+  background-color: #2bc48a;
+}
+.btn-add-to-cart {
+  width: 95%;
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.1rem;
+}
+@media screen and (max-width: 767px) {
+  .card-text {
+    font-size: small;
+  }
+  .btn {
+    font-size: x-small;
+  }
+  .rating {
+    padding: 0rem 0.1rem;
+    font-size: xx-small;
+  }
+  .rating i {
+    font-size: xx-small;
+  }
+  .product-card {
+    margin: 0.2rem;
+    padding: 0.2rem;
+    max-width: 48%;
+  }
+  .wishlist-badge {
+    position: absolute;
+    width: 0.2rem;
+    height: 0.2rem;
+    top: 0.1rem;
+    right: 0.1rem;
+  }
+  .wishlist-badge i {
+    font-size: x-small;
+  }
+  .wishlist-btn {
+    padding: 0.7rem;
+  }
+}
