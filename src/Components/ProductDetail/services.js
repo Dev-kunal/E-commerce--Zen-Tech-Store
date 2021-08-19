@@ -67,8 +67,6 @@ export const addToCart = async ({
             payload: { newCartItem },
           });
         }
-
-        setLoading(false);
       } catch (error) {
         console.log(error);
       }

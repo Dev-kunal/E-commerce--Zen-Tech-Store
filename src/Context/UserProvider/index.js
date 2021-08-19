@@ -1,9 +1,6 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
 
-import {
-  setupAuthHeaderForServiceCalls,
-  setupAuthExceptionHandler,
-} from "../../Utils/UseAxios";
+import { setupAuthHeaderForServiceCalls } from "../../Utils/UseAxios";
 
 const AuthContext = createContext();
 

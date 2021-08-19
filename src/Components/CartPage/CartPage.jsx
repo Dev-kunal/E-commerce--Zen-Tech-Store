@@ -16,6 +16,12 @@ export const CartPage = () => {
   const toast = useRef(null);
   const navigate = useNavigate();
 
+  if (showToast) {
+    setTimeout(() => {
+      dispatch({ type: "HIDE_TOAST" });
+    }, 2000);
+  }
+
   useEffect(() => {
     if (loadCartChanges) {
       loadCart({ dispatch, setLoading });
@@ -28,23 +34,19 @@ export const CartPage = () => {
       itemsInCart,
     };
     const { success, message } = await UseAxios("POST", "/payment", body);
-    if (!success) {
+    if (success) {
+      dispatch({
+        type: "ORDER_PLACED",
+        payload: { message },
+      });
+    } else {
       dispatch({
         type: "SHOW_TOAST",
         payload: { message },
       });
     }
-    dispatch({
-      type: "ORDER_PLACED",
-      payload: { message: message },
-    });
   };
 
-  if (showToast) {
-    setTimeout(() => {
-      dispatch({ type: "HIDE_TOAST" });
-    }, 2000);
-  }
   useEffect(() => {
     setTotalCart(
       itemsInCart.reduce(
@@ -103,15 +105,15 @@ export const CartPage = () => {
                   />
                 ))}
               </div>
-              {showToast && (
-                <div className="toast toast-n" ref={toast}>
-                  <p>{toastMessage}</p>
-                  <button className="btn toast-btn">X</button>
-                </div>
-              )}
             </div>
           )}
         </>
+      )}
+      {showToast && (
+        <div className="toast toast-n" ref={toast}>
+          <p>{toastMessage}</p>
+          <button className="btn toast-btn">X</button>
+        </div>
       )}
     </>
   );

@@ -125,7 +125,7 @@ export const cartReducer = (state, { type, payload }) => {
         ...state,
         itemsInCart: [],
         showToast: true,
-        toastMessage: payload.message,
+        toastMessage: "Order Placed. Payment received Succesfully..!",
       };
 
     case "PRICE_LOW_TO_HIGH":
